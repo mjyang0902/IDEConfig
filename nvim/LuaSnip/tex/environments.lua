@@ -249,7 +249,6 @@ return {
 
                 \input{~/Texfile/preamble}
                 \input{~/Texfile/letterfonts}
-                \font\nullfont=cmr10
 
                 \title{\textbf{()}}
                 \author{()}
@@ -378,7 +377,7 @@ return {
     s({trig="df", dscr="A LaTeX Definition environment"},
         fmta( -- The snippet code actually looks like the equation environment it produces.
             [[
-                \begin{df}{}{}
+                \begin{df}[colbacktitle=blue!75!white]{}{}
                     <>
                 \end{df}
             ]],
