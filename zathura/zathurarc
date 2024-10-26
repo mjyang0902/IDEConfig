@@ -1,0 +1,9 @@
+set window-height 1032
+set window-width 640
+set synctex true
+set synctex-editor-command "nvr --remote-silent +%{line} %{input}"
+set selection-clipboard clipboard
+# set recolor true
+map <C-i> recolor
+set recolor_darkcolor #BDE090
+set recolor_lightcolor #000000
