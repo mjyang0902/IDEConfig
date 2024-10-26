@@ -6,4 +6,4 @@ THis is my configuration about IDE, which include
 - oh-my-posh
 
 First of all, install Homebrew, a powerful package manager for Macos and Linux.
-`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+``/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"``
