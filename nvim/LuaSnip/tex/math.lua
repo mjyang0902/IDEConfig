@@ -263,7 +263,7 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = '([^%\\])phi', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = '([^%\\])phi', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
         fmta(
             [[<>\phi]],
             {
@@ -472,7 +472,7 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = '([^%\\])Phi', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = '([^%\\])Phi', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
         fmta(
             [[<>\Phi]],
             {
@@ -683,7 +683,8 @@ return {
     ),
     s({trig = '([^%\\])log', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
-            [[<>\log ]],
+            [[<>\log]],
+
             {
                 f( function(_, snip) return snip.captures[1] end ),
             }
@@ -768,6 +769,19 @@ return {
             {
                 i(1,"i=1"),
                 i(2,"n"),
+                d(3, get_visual),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = "int", regTrig = true, wordTrig = false},
+        fmta(
+            [[\int_{<>}^{<>} <>]],
+            {
+                i(1),
+                i(2),
                 d(3, get_visual),
             }
         ),

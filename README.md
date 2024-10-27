@@ -17,6 +17,15 @@ To install wezterm, use to command below
 ```
 brew install --cask wezterm
 ```
+
+## Neovim
+```
+brew install ripgrep fzf
+```
+also require `gcc` or `clang`, `make`
+```
+brew install gcc make
+```
 ## Zathura 
 Make an icon of zathura, try [this](https://github.com/zegervdv/homebrew-zathura/issues/122)
 1. Create a New Directory:
