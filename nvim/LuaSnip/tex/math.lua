@@ -6,9 +6,11 @@ local i = ls.insert_node
 local f = ls.function_node
 local d = ls.dynamic_node
 local fmt = require("luasnip.extras.fmt").fmt
-local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
+local fmta = require("luasnip.extras.fmt").fmta
 local postfix = require("luasnip.extras.postfix").postfix
+local extras = require("luasnip.extras")
+local l = extras.lambda
 
 local get_visual = function(args, parent)
     if (#parent.snippet.env.LS_SELECT_RAW > 0) then
@@ -716,6 +718,17 @@ return {
             condition = in_mathzone
         }
     ),
+    s({trig = "sub", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[_{<>}]],
+            {
+                d(1, get_visual),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
     s({trig = "sq", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
             [[\sqrt{<>}]],
@@ -750,7 +763,7 @@ return {
     --
     -- Yes, these jumbles of text nodes and insert nodes get messy fast, and yes,
     -- there is a much better, human-readable solution: ls.fmt, described shortly.
-    s({trig = "([%s])/", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = "//", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
             [[\frac{<>}{<>}]],
             {
@@ -762,7 +775,7 @@ return {
             condition = in_mathzone
         }
     ),
-    postfix("/", {l("\\frac{" .. l.POSTFIX_MATCH .. "}{<>}")}, { condition=in_mathzone }),
+    postfix({trig = "/", snippetType = "autosnippet"},{l("\\frac{" .. l.POSTFIX_MATCH .. "}"),t("{"),i(1),t("}")}, { condition=in_mathzone }),
     s({trig = "suma", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
             [[\sum\limits_{<>}^{<>} <>]],
@@ -921,7 +934,7 @@ return {
             condition = in_mathzone
         }
     ),
-    s({ trig='lrv', name='left right', dscr='left right'},
+    s({ trig='lrv', name='left right', dscr='left right', snippetType = "autosnippet"},
         fmt([[\left(<>\right)<>]],
             { f(function(args, snip)
                 local res, env = {}, snip.env
