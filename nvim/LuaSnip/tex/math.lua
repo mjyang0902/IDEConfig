@@ -699,7 +699,7 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = 'cd', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = 'cb', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         t("^{3}"),
         {
             condition = in_mathzone

@@ -458,6 +458,20 @@ return {
         ),
         {condition = line_begin}
     ),
+    s({trig="rmk", dscr="A LaTeX Remark environment"},
+        fmta( -- The snippet code actually looks like the equation environment it produces.
+            [[
+                \begin{rmk}{}{}
+                    <>
+                \end{rmk}
+            ]],
+            -- The insert node is placed in the <> angle brackets
+            { d(1,get_visual) },
+            -- This is where I specify that angle brackets are used as node positions.
+            { delimiters = "<>" }
+        ),
+        {condition = line_begin}
+    ),
 }
 
 
