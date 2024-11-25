@@ -64,7 +64,7 @@ return {
     ),
     s({trig = '(%d)mab', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
-            [[\matopbm{<>}]],
+            [[\mathbbm{<>}]],
             {
                 f( function(_, snip) return snip.captures[1] end ),
             }
@@ -187,7 +187,7 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = '([^%\\])eta', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = '([^%\\])eta', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
         fmta(
             [[<>\eta]],
             {
@@ -944,4 +944,38 @@ return {
             { delimiters='<>' }
         ), { condition=in_mathzone, show_condition=in_mathzone}),
     postfix("hat", {l("\\hat{" .. l.POSTFIX_MATCH .. "}")}, { condition=in_mathzone }),
+    s({trig = "([%s])lp", regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+        fmta(
+            [[\|<>\|_{L^{<>}}]],
+            {
+                d(1, get_visual),
+                i(2, "p"),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = "var", regTrig = true, wordTrig = false},
+        fmta(
+            [[\text{Var}(<>)]],
+            {
+                d(1, get_visual),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = "lan", regTrig = true, wordTrig = false},
+        fmta(
+            [[\langle <>\rangle]],
+            {
+                d(1, get_visual),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
 }

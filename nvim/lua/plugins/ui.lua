@@ -37,7 +37,7 @@ return {
         end
     },
     "nvchad/volt",
-  "nvchad/menu",
+    "nvchad/menu",
     { lazy = true, "nvim-lua/plenary.nvim"},
     {
         "nvchad/ui",

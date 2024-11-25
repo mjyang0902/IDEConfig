@@ -69,20 +69,25 @@ return{
                 end, { "i", "s" }),
 
                 ["<Tab>"] = cmp.mapping(function(fallback)
-                    if in_mathzone() then
-                        if cmp.visible() then
-                            cmp.close()
-                        elseif luasnip.expand_or_jumpable() then
-                            luasnip.expand_or_jump()
-                        else
-                            fallback()
-                        end
+                    -- if in_mathzone() then
+                    --     if cmp.visible() then
+                    --         cmp.close()
+                    --     elseif luasnip.expand_or_jumpable() then
+                    --         luasnip.expand_or_jump()
+                    --     else
+                    --         fallback()
+                    --     end
+                    -- else
+                    --     if luasnip.expand_or_jumpable() then
+                    --         luasnip.expand_or_jump()
+                    --     else
+                    --         fallback()
+                    --     end
+                    -- end
+                    if luasnip.expand_or_jumpable() then
+                        luasnip.expand_or_jump()
                     else
-                        if luasnip.expand_or_jumpable() then
-                            luasnip.expand_or_jump()
-                        else
-                            fallback()
-                        end
+                        fallback()
                     end
                 end, { "i", "s"}),
 

@@ -21,9 +21,10 @@ local line_begin = require("luasnip.extras.expand_conditions").line_begin
 
 return {
     s({trig = "mk", dscr = "Math environment.", snippetType = "autosnippet"},
-        fmta("$<>$",
+        fmta([[$<>$<>]],
             {
                 d(1, get_visual),
+                i(2),
             }
         )
     ),
@@ -52,6 +53,23 @@ return {
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
+            -- This is where I specify that angle brackets are used as node positions.
+            { delimiters = "<>" }
+        ),
+        {condition = line_begin}
+    ),
+    s({trig="ali", dscr="A LaTeX equation environment"},
+        fmta( -- The snippet code actually looks like the equation environment it produces.
+            [[
+                \begin{align<>}
+                    <>
+                \end{align<>}
+            ]],
+            -- The insert node is placed in the <> angle brackets
+            { i(1),
+                d(2,get_visual),
+                rep(1),
+            },
             -- This is where I specify that angle brackets are used as node positions.
             { delimiters = "<>" }
         ),
@@ -181,7 +199,7 @@ return {
                 \newtheorem*{sol}{Solution}
                 \newtheorem{qes}{Question}
                 \newtheorem{nt}{Note}
-                
+
                 \begin{document}
                 \begin{CJK}{UTF8}{}
                 \begin{TChinese}
@@ -201,35 +219,63 @@ return {
     ),
     s({trig="template_beamer", dscr="A template of latex beamer"},
         fmta( -- The snippet code actually looks like the equation environment it produces.
-            [[    
-                \documentclass[x11names]{beamer}
+            [[
+                \documentclass[x11names, noamsthm]{beamer}
+                \usetheme{Madrid}
+                \usecolortheme{default}
                 \setbeamertemplate{navigation symbols}{}
                 \setbeamertemplate{bibliography}{\insertbiblabel}
                 \setbeamertemplate{frametitle continuation}[from second]
                 \setbeamertemplate{footline}
                 {
-                \hspace*{2em}\insertpagenumber / \insertdocumentendpage
+                    \hspace*{2em}\insertpagenumber / \insertdocumentendpage
                 }
                 \usepackage{mathtools}
                 \usepackage{latexsym, amsfonts, amsmath}
                 \usepackage{bbm}
+
+                \usefonttheme[onlymath]{serif}
+                \usepackage{amsthm}
+                \usepackage[utf8]{inputenc} %
+                \usepackage[T1]{fontenc}    %
+                \usepackage{hyperref}       %
+                \usepackage{url}            %
+                \usepackage{booktabs}       %
+                \usepackage{amsfonts}       %
+                \usepackage{nicefrac}       %
+                \usepackage{microtype}      %
+                \usepackage{xcolor}         %
+                \usepackage{times}
+                \usepackage{mathtools}
+                \usepackage[capitalise]{cleveref}
+                \usepackage{color}
+                \usepackage{booktabs,siunitx}
+                \usepackage{comment}
+                \usepackage{graphicx}
+                \usepackage{xspace}
+                \usepackage{capt-of}
+                \usepackage{amsmath}
+                \usepackage{amssymb}
+                \usepackage{amsfonts}
+                \usepackage{amsthm}
+                \usepackage{multirow}
+
                 \title{<>}
                 \author{<>}
                 \institute[NTU]{
                 <>
                 }
                 \date{\today}
-                \newtheorem{prop}{Proposition}
                 \begin{document}
                 \frame{\titlepage}
                 <>
                 \begin{frame}[allowframebreaks]
-                \frametitle{Bibliography}
-                \tiny{\bibliographystyle{plain}}
-                \bibliography{bib}
+                    \frametitle{Bibliography}
+                    \tiny{\bibliographystyle{plain}}
+                    \bibliography{ref}
                 \end{frame}
                 \end{document}
-            ]],
+            ]]
             -- The insert node is placed in the <> angle brackets
             {
                 i(1),
