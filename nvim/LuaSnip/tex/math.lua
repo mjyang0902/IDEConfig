@@ -42,6 +42,39 @@ return {
             condition = in_mathzone
         }
     ),
+    s({trig = '(%a)ii', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[<>_{i}]],
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '(%a)jj', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[<>_{j}]],
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '(%a)tt', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[<>_{t}]],
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
     s({trig = '}(%d)', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
             [[}_{<>}]],
@@ -939,10 +972,11 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = 'iff', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+    s({trig = '([^d])iff', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
         fmta(
-            [[<>]],
+            [[<><>]],
             {
+                f(function(_, snip) return snip.captures[1] end),
                 c(1, {t("\\Leftrightarrow"), t("\\Longleftrightarrow"), t("\\leftrightarrow"), t("\\longleftrightarrow"), t("\\iff")}),
             }
         ),
@@ -1077,6 +1111,30 @@ return {
             {
                 c(1, {t("\\tilde"), t("\\widetilde"), t("\\hat"), t("\\widehat"), t("\\bar"), t("\\overline")}),
                 f(function(_, snip) return snip.captures[1] end),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = 'diff', regTrig = true, wordTrig = false},
+        fmta(
+            [[\frac{\mathrm{d} <>}{\mathrm{d} <>}]],
+            {
+                i(1, "y"),
+                i(2, "x"),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = 'part', regTrig = true, wordTrig = false},
+        fmta(
+            [[\frac{\partial <>}{\partial <>}]],
+            {
+                i(1, "y"),
+                i(2, "x"),
             }
         ),
         {
