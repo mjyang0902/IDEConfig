@@ -20,15 +20,6 @@ end
 local line_begin = require("luasnip.extras.expand_conditions").line_begin
 
 return {
-    s({trig = "mk", dscr = "Math environment.", snippetType = "autosnippet"},
-        fmta([[$<>$<>]],
-            {
-                d(1, get_visual),
-                i(2),
-            }
-        )
-    ),
-
     s({trig="beg", snippetType="autosnippet"},
         fmta(
             [[
@@ -189,7 +180,7 @@ return {
                 \newtheorem{thm}{Theorem}
                 \newtheorem{cl}{Corollary}
                 \newtheorem{pp}{Property}
-                \newtheorem{prop}{Proposition}
+    esssim       \newtheorem{prop}{Proposition}
                 \newtheorem{lm}{Lemma}
                 \newtheorem{clm}{Claim}
                 \newtheorem*{pf}{Proof}
@@ -247,7 +238,6 @@ return {
                 \usepackage{xcolor}         %
                 \usepackage{times}
                 \usepackage{mathtools}
-                \usepackage[capitalise]{cleveref}
                 \usepackage{color}
                 \usepackage{booktabs,siunitx}
                 \usepackage{comment}
@@ -275,7 +265,7 @@ return {
                     \bibliography{ref}
                 \end{frame}
                 \end{document}
-            ]]
+            ]],
             -- The insert node is placed in the <> angle brackets
             {
                 i(1),

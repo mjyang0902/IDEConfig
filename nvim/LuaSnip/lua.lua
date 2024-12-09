@@ -26,8 +26,16 @@ local ms = ls.multi_snippet
 local k = require("luasnip.nodes.key_indexer").new_key
 
 return {
-    s({ trig = "snippet", dscr = "Code snippet for LuaSnip."}, {
-        t("s({ trig = \""), i(1, "trig"), t("\", dscr = \""), i(2, "dscr"), 
-        t({"\"}, {", "\t"}), i(3, "pass"), t({"", "}),"}),
-    }),
+    -- s({ trig = "snippet", dscr = "Code snippet for LuaSnip."}, {
+    --     t("s({ trig = \""), i(1, "trig"), t("\", dscr = \""), i(2, "dscr"), 
+    --     t({"\"}, {", "\t"}), i(3, "pass"), t({"", "}),"}),
+    -- }),
+    s("snipt", 
+        fmt([[ 
+                <>(<>, {t('<>')}<>
+                <>)<>,
+            ]],
+    { c(1, {t("s"), t("autosnippet")}), c(2, {i(nil, "trig"), sn(nil, {t("{trig='"), i(1), t("'}")})}), i(3, "text"), i(4, "opts"), i(5), i(0)},
+    { delimiters='<>' }
+    ))
 }

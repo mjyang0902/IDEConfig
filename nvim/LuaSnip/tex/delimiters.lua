@@ -19,5 +19,12 @@ end
 
 
 return {
-  -- Example: how to set snippet parameters
+    s({trig = "mk", dscr = "Math environment.", snippetType = "autosnippet"},
+        fmta([[$<>$<>]],
+            {
+                d(1, get_visual),
+                i(2),
+            }
+        )
+    ),
 }

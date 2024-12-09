@@ -37,7 +37,10 @@ return {
         end
     },
     "nvchad/volt",
-    "nvchad/menu",
+    {
+        "nvzone/minty",
+        cmd = { "Shades", "Huefy" },
+    },
     { lazy = true, "nvim-lua/plenary.nvim"},
     {
         "nvchad/ui",

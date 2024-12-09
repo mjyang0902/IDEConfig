@@ -5,6 +5,7 @@ local t = ls.text_node
 local i = ls.insert_node
 local f = ls.function_node
 local d = ls.dynamic_node
+local c = ls.choice_node
 local fmt = require("luasnip.extras.fmt").fmt
 local rep = require("luasnip.extras").rep
 local fmta = require("luasnip.extras.fmt").fmta
@@ -27,6 +28,7 @@ end
 
 local line_begin = require("luasnip.extras.expand_conditions").line_begin
 
+-- local HatSequence = [\overline, \bar, \hat, \tilde, \widetilde, \widehat]
 return {
     s({trig = '(%a)(%d)', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
@@ -342,17 +344,17 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = '([^%\\])xi', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
-        fmta(
-            [[<>\xi]],
-            {
-                f( function(_, snip) return snip.captures[1] end ),
-            }
-        ),
-        {
-            condition = in_mathzone
-        }
-    ),
+    -- s({trig = '([^%\\])xi', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+    --     fmta(
+    --         [[<>\xi]],
+    --         {
+    --             f( function(_, snip) return snip.captures[1] end ),
+    --         }
+    --     ),
+    --     {
+    --         condition = in_mathzone
+    --     }
+    -- ),
     s({trig = '([^%\\])zeta', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
             [[<>\zeta]],
@@ -718,7 +720,7 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = "sub", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = "sb", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
             [[_{<>}]],
             {
@@ -892,26 +894,58 @@ return {
         }
     ),
 
+
     s({trig = '->', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
-        t("\\rightarrow "),
+        fmta(
+            [[<>]],
+            {
+                c(1, {t("\\rightarrow"), t("\\longrightarrow"), t("\\Rightarrow"), t("\\Longrightarrow")}),
+            }
+        ),
         {
             condition = in_mathzone
         }
     ),
     s({trig = '-<', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
-        t("\\leftarrow "),
+        fmta(
+            [[<>]],
+            {
+                c(1, {t("\\leftarrow"), t("\\longleftarrow"), t("\\Leftarrow"), t("\\Longleftarrow")}),
+            }
+        ),
         {
             condition = in_mathzone
         }
     ),
     s({trig = '=>', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
-        t("\\Rightarrow "),
+        fmta(
+            [[<>]],
+            {
+                c(1, {t("\\Rightarrow"), t("\\Longrightarrow"), t("\\rightarrow"), t("\\longrightarrow")}),
+            }
+        ),
         {
             condition = in_mathzone
         }
     ),
     s({trig = '=<', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
-        t("\\leftarrow "),
+        fmta(
+            [[<>]],
+            {
+                c(1, {t("\\Leftarrow"), t("\\Longleftarrow"), t("\\leftarrow"), t("\\longleftarrow")}),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = 'iff', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+        fmta(
+            [[<>]],
+            {
+                c(1, {t("\\Leftrightarrow"), t("\\Longleftrightarrow"), t("\\leftrightarrow"), t("\\longleftrightarrow"), t("\\iff")}),
+            }
+        ),
         {
             condition = in_mathzone
         }
@@ -922,14 +956,38 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = '<=', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+    s({trig = '<=', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         t("\\leq "),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '>~', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+        t("\\gtrsim "),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '<~', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+        t("\\lesssim "),
         {
             condition = in_mathzone
         }
     ),
     s({trig = 'aa', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
         t("\\forall "),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = 'ee', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+        t("\\exists "),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = 'cc', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+        t("\\subset"),
         {
             condition = in_mathzone
         }
@@ -943,7 +1001,6 @@ return {
             end, {}), i(0) },
             { delimiters='<>' }
         ), { condition=in_mathzone, show_condition=in_mathzone}),
-    postfix("hat", {l("\\hat{" .. l.POSTFIX_MATCH .. "}")}, { condition=in_mathzone }),
     s({trig = "([%s])lp", regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
         fmta(
             [[\|<>\|_{L^{<>}}]],
@@ -958,7 +1015,7 @@ return {
     ),
     s({trig = "var", regTrig = true, wordTrig = false},
         fmta(
-            [[\text{Var}(<>)]],
+            [[\text{Var}\left(<>\right)]],
             {
                 d(1, get_visual),
             }
@@ -972,6 +1029,54 @@ return {
             [[\langle <>\rangle]],
             {
                 d(1, get_visual),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '([%a])bar', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[<>{<>}]],
+            {
+                c(1, {t("\\bar"), t("\\overline"), t("\\hat"), t("\\tilde"), t("\\widetilde"), t("\\widehat")}),
+                f(function(_, snip) return snip.captures[1] end),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '([%a])overline', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[<>{<>}]],
+            {
+                c(1, {t("\\overline"), t("\\bar"), t("\\hat"), t("\\tilde"), t("\\widetilde"), t("\\widehat")}),
+                f(function(_, snip) return snip.captures[1] end),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '([%a])hat', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[<>{<>}]],
+            {
+                c(1, {t("\\hat"), t("\\widehat"), t("\\tilde"), t("\\widetilde"), t("\\bar"), t("\\overline")}),
+                f(function(_, snip) return snip.captures[1] end),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '([%a])tilde', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[<>{<>}]],
+            {
+                c(1, {t("\\tilde"), t("\\widetilde"), t("\\hat"), t("\\widehat"), t("\\bar"), t("\\overline")}),
+                f(function(_, snip) return snip.captures[1] end),
             }
         ),
         {

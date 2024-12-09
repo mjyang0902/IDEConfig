@@ -57,14 +57,30 @@ return{
             },
             mapping = cmp.mapping.preset.insert {
                 ["<C-[>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
-                        cmp.select_next_item()
-                    elseif luasnip.expand_or_jumpable() then
-                        luasnip.expand_or_jump()
-                    elseif has_words_before() then
-                        cmp.complete()
+                    if in_mathzone() then
+                        if luasnip.choice_active() then
+                            if cmp.visible() then
+                                cmp.close()
+                            else
+                                luasnip.change_choice(1)
+                            end
+                        elseif cmp.visible() then
+                            cmp.select_next_item()
+                        elseif has_words_before() then
+                            cmp.complete()
+                        else
+                            fallback()
+                        end
                     else
-                        fallback()
+                        if cmp.visible() then
+                            cmp.select_next_item()
+                        elseif luasnip.choice_active() then
+                            luasnip.change_choice(1)
+                        elseif has_words_before() then
+                            cmp.complete()
+                        else
+                            fallback()
+                        end
                     end
                 end, { "i", "s" }),
 
