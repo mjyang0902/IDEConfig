@@ -131,6 +131,9 @@ return{
                         fallback()
                     end
                 end, { "i", "s"} ),
+                ['<C-g>'] = cmp.mapping(function(fallback)
+                    vim.api.nvim_feedkeys(vim.fn['copilot#Accept'](vim.api.nvim_replace_termcodes('<Tab>', true, true, true)), 'n', true)
+                end),
             },
         }
         options = vim.tbl_deep_extend("force", options, require "nvchad.cmp")
