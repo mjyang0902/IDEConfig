@@ -1,3 +1,13 @@
+-- Define the leave_snippet function globally
+_G.leave_snippet = function()
+    if
+        ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
+        and require('luasnip').session.current_nodes[vim.api.nvim_get_current_buf()]
+        and not require('luasnip').session.jump_active
+    then
+        require('luasnip').unlink_current()
+    end
+end
 return{
     "hrsh7th/nvim-cmp",
     event = { "BufReadPost", "BufNewFile" },
@@ -20,11 +30,16 @@ return{
         },
     },
     config = function()
+        vim.api.nvim_command([[
+            autocmd ModeChanged * lua leave_snippet()
+        ]])
         require("luasnip").config.set_config({
             -- Enable autotriggered snippets
             enable_autosnippets = true,
             store_selection_keys = "<Tab>",
             update_events = {"TextChanged", "TextChangedI"},
+            region_check_events = 'InsertEnter',
+            delete_check_events = 'InsertLeave'
         })
         require("luasnip.loaders.from_lua").lazy_load({paths = "~/.config/nvim/LuaSnip/"})
         local auto_expand = require("luasnip").expand_auto
@@ -85,21 +100,6 @@ return{
                 end, { "i", "s" }),
 
                 ["<Tab>"] = cmp.mapping(function(fallback)
-                    -- if in_mathzone() then
-                    --     if cmp.visible() then
-                    --         cmp.close()
-                    --     elseif luasnip.expand_or_jumpable() then
-                    --         luasnip.expand_or_jump()
-                    --     else
-                    --         fallback()
-                    --     end
-                    -- else
-                    --     if luasnip.expand_or_jumpable() then
-                    --         luasnip.expand_or_jump()
-                    --     else
-                    --         fallback()
-                    --     end
-                    -- end
                     if luasnip.expand_or_jumpable() then
                         luasnip.expand_or_jump()
                     else
@@ -131,9 +131,6 @@ return{
                         fallback()
                     end
                 end, { "i", "s"} ),
-                ['<C-g>'] = cmp.mapping(function(fallback)
-                    vim.api.nvim_feedkeys(vim.fn['copilot#Accept'](vim.api.nvim_replace_termcodes('<Tab>', true, true, true)), 'n', true)
-                end),
             },
         }
         options = vim.tbl_deep_extend("force", options, require "nvchad.cmp")

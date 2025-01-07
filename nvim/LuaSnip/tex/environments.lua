@@ -69,7 +69,7 @@ return {
     s({trig="fra", dscr="A frame in latex beamer"},
         fmta( -- The snippet code actually looks like the equation environment it produces.
             [[
-                \begin{frame}{label=<>}
+                \begin{frame}[label=<>]
                     \frametitle{<>}
                     \framesubtitle{<>}
                     <>
