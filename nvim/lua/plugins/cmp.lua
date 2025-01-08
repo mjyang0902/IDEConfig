@@ -71,7 +71,7 @@ return{
                 { name = "buffer" },
             },
             mapping = cmp.mapping.preset.insert {
-                ["<C-[>"] = cmp.mapping(function(fallback)
+                ["<F2>"] = cmp.mapping(function(fallback)
                     if in_mathzone() then
                         if luasnip.choice_active() then
                             if cmp.visible() then
@@ -107,7 +107,7 @@ return{
                     end
                 end, { "i", "s"}),
 
-                ["<C-]>"] = cmp.mapping(function(fallback)
+                ["<F3>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         cmp.select_prev_item()
                     else
@@ -137,14 +137,70 @@ return{
         require("cmp").setup(options)
 
         cmp.setup.cmdline('/', {
-            mapping = cmp.mapping.preset.cmdline(),
+            mapping = cmp.mapping.preset.cmdline({
+                ['<F2>'] = {
+                    c = function (default)
+                        if cmp.visible() then
+                            return cmp.select_next_item()
+                        else
+                            default()
+                        end
+                    end
+                },
+                ["<Tab>"] = {
+                    c = function(default)
+                        if cmp.visible() then
+                            return cmp.confirm({ select = true })
+                        end
+
+                        default()
+                    end,
+                },
+                ['<F3>'] = {
+                    c = function (default)
+                        if cmp.visible() then
+                            return cmp.select_prev_item()
+                        else
+                            default()
+                        end
+                    end
+                },
+            }),
             sources = {
                 { name = 'buffer' },
             }
         })
 
         cmp.setup.cmdline(':', {
-            mapping = cmp.mapping.preset.cmdline(),
+            mapping = cmp.mapping.preset.cmdline({
+                ['<F2>'] = {
+                    c = function (default)
+                        if cmp.visible() then
+                            return cmp.select_next_item()
+                        else
+                            default()
+                        end
+                    end
+                },
+                ["<Tab>"] = {
+                    c = function(default)
+                        if cmp.visible() then
+                            return cmp.confirm({ select = true })
+                        end
+
+                        default()
+                    end,
+                },
+                ['<F3>'] = {
+                    c = function (default)
+                        if cmp.visible() then
+                            return cmp.select_prev_item()
+                        else
+                            default()
+                        end
+                    end
+                },
+            }),
             sources = cmp.config.sources({
                 { name = 'path' },
                 { name = 'cmdline' }
