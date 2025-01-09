@@ -71,7 +71,7 @@ return{
                 { name = "buffer" },
             },
             mapping = cmp.mapping.preset.insert {
-                ["<F2>"] = cmp.mapping(function(fallback)
+                ["<Tab>"] = cmp.mapping(function(fallback)
                     if in_mathzone() then
                         if luasnip.choice_active() then
                             if cmp.visible() then
@@ -99,15 +99,15 @@ return{
                     end
                 end, { "i", "s" }),
 
-                ["<Tab>"] = cmp.mapping(function(fallback)
+                ["<F2>"] = cmp.mapping(function(fallback)
                     if luasnip.expand_or_jumpable() then
                         luasnip.expand_or_jump()
-                    else
-                        fallback()
+                    -- else
+                    --     fallback()
                     end
                 end, { "i", "s"}),
 
-                ["<F3>"] = cmp.mapping(function(fallback)
+                ["<S-Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         cmp.select_prev_item()
                     else
@@ -115,11 +115,11 @@ return{
                     end
                 end, { "i", "s" }),
 
-                ["<S-Tab>"] = cmp.mapping(function(fallback)
+                ["<F3>"] = cmp.mapping(function(fallback)
                     if luasnip.jumpable(-1) then
                         luasnip.jump(-1)
-                    else
-                        fallback()
+                    -- else
+                    --     fallback()
                     end
                 end, { "i", "s"} ),
 
@@ -138,7 +138,7 @@ return{
 
         cmp.setup.cmdline('/', {
             mapping = cmp.mapping.preset.cmdline({
-                ['<F2>'] = {
+                ['<Tab>'] = {
                     c = function (default)
                         if cmp.visible() then
                             return cmp.select_next_item()
@@ -147,16 +147,16 @@ return{
                         end
                     end
                 },
-                ["<Tab>"] = {
+                ["<F2>"] = {
                     c = function(default)
                         if cmp.visible() then
                             return cmp.confirm({ select = true })
                         end
 
-                        default()
+                        -- default()
                     end,
                 },
-                ['<F3>'] = {
+                ['<S-Tab>'] = {
                     c = function (default)
                         if cmp.visible() then
                             return cmp.select_prev_item()
@@ -173,7 +173,7 @@ return{
 
         cmp.setup.cmdline(':', {
             mapping = cmp.mapping.preset.cmdline({
-                ['<F2>'] = {
+                ['<Tab>'] = {
                     c = function (default)
                         if cmp.visible() then
                             return cmp.select_next_item()
@@ -182,16 +182,16 @@ return{
                         end
                     end
                 },
-                ["<Tab>"] = {
+                ["<F2>"] = {
                     c = function(default)
                         if cmp.visible() then
                             return cmp.confirm({ select = true })
                         end
 
-                        default()
+                        -- default()
                     end,
                 },
-                ['<F3>'] = {
+                ['<S-Tab>'] = {
                     c = function (default)
                         if cmp.visible() then
                             return cmp.select_prev_item()
