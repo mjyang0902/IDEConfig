@@ -1026,21 +1026,33 @@ return {
             condition = in_mathzone
         }
     ),
-    s({ trig='lrv', name='left right', dscr='left right', snippetType = "autosnippet"},
-        fmt([[\left(<>\right)<>]],
-            { f(function(args, snip)
-                local res, env = {}, snip.env
-                for _, val in ipairs(env.LS_SELECT_RAW) do table.insert(res, val) end
-                return res
-            end, {}), i(0) },
-            { delimiters='<>' }
-        ), { condition=in_mathzone, show_condition=in_mathzone}),
+    -- s({ trig='lrv', name='left right', dscr='left right', snippetType = "autosnippet"},
+    --     fmt([[\left(<>\right)<>]],
+    --         { f(function(args, snip)
+    --             local res, env = {}, snip.env
+    --             for _, val in ipairs(env.LS_SELECT_RAW) do table.insert(res, val) end
+    --             return res
+    --         end, {}), i(0) },
+    --         { delimiters='<>' }
+    --     ), { condition=in_mathzone, show_condition=in_mathzone}),
     s({trig = "([%s])lp", regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
         fmta(
             [[\|<>\|_{L^{<>}}]],
             {
                 d(1, get_visual),
                 i(2, "p"),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = "snm", regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+        fmta(
+            [[\|<>\|_{\psi_{<>}}]],
+            {
+                d(1, get_visual),
+                i(2, "2"),
             }
         ),
         {

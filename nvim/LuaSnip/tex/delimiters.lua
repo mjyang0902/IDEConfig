@@ -8,6 +8,7 @@ local d = ls.dynamic_node
 local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
+local autosnippet = ls.extend_decorator.apply(s, { snippetType = "autosnippet" })
 
 local get_visual = function(args, parent)
   if (#parent.snippet.env.LS_SELECT_RAW > 0) then
@@ -17,6 +18,20 @@ local get_visual = function(args, parent)
   end
 end
 
+local in_mathzone = function()
+    -- The `in_mathzone` function requires the VimTeX plugin
+    return vim.fn['vimtex#syntax#in_mathzone']() == 1
+end
+-- brackets
+local brackets = {
+	a = { "\\langle", "\\rangle" },
+	A = { "Angle", "Angle" },
+	b = { "[", "]" },
+	B = { "\\{", "\\}" },
+	c = { "brace", "brace" },
+	m = { "|", "|" },
+	p = { "(", ")" },
+}
 
 return {
     s({trig = "mk", dscr = "Math environment.", snippetType = "autosnippet"},
@@ -27,4 +42,21 @@ return {
             }
         )
     ),
+    autosnippet(
+	{ trig = "lr([aAbBcmp])", name = "left right", dscr = "left right delimiters", regTrig = true, hidden = true },
+	fmta(
+	[[
+    \left<> <> \right<><>
+    ]],
+	{f(function(_, snip)
+        cap = snip.captures[1] or 'p'
+        return brackets[cap][1]
+    end),
+    d(1, get_visual),
+    f(function(_, snip)
+        cap = snip.captures[1] or 'p'
+        return brackets[cap][2]
+    end),
+    i(0)}),
+    { condition = in_mathzone, show_condition = in_mathzone}),
 }

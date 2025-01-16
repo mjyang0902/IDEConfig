@@ -180,7 +180,7 @@ return {
                 \newtheorem{thm}{Theorem}
                 \newtheorem{cl}{Corollary}
                 \newtheorem{pp}{Property}
-    esssim       \newtheorem{prop}{Proposition}
+                \newtheorem{prop}{Proposition}
                 \newtheorem{lm}{Lemma}
                 \newtheorem{clm}{Claim}
                 \newtheorem*{pf}{Proof}
@@ -214,46 +214,38 @@ return {
                 \documentclass[x11names, noamsthm]{beamer}
                 \usetheme{Madrid}
                 \usecolortheme{default}
-                \setbeamertemplate{navigation symbols}{}
-                \setbeamertemplate{bibliography}{\insertbiblabel}
-                \setbeamertemplate{frametitle continuation}[from second]
+
+                \makeatletter
                 \setbeamertemplate{footline}
                 {
-                    \hspace*{2em}\insertpagenumber / \insertdocumentendpage
+                    \leavevmode%
+                    \hbox{%
+                    \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+                    \usebeamerfont{author in head/foot}<>
+                    \end{beamercolorbox}%
+                    \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+                    \usebeamerfont{title in head/foot}<>
+                    \end{beamercolorbox}%
+                    \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+                    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+                    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+
+
+                    \end{beamercolorbox}}%
+                    \vskip0pt%
                 }
+                \makeatother
+                \usepackage[ruled,vlined, algo2e]{algorithm2e}
+                \usefonttheme[onlymath]{serif}
                 \usepackage{mathtools}
+                \usepackage{amsthm}
                 \usepackage{latexsym, amsfonts, amsmath}
                 \usepackage{bbm}
 
-                \usefonttheme[onlymath]{serif}
-                \usepackage{amsthm}
-                \usepackage[utf8]{inputenc} %
-                \usepackage[T1]{fontenc}    %
-                \usepackage{hyperref}       %
-                \usepackage{url}            %
-                \usepackage{booktabs}       %
-                \usepackage{amsfonts}       %
-                \usepackage{nicefrac}       %
-                \usepackage{microtype}      %
-                \usepackage{xcolor}         %
-                \usepackage{times}
-                \usepackage{mathtools}
-                \usepackage{color}
-                \usepackage{booktabs,siunitx}
-                \usepackage{comment}
-                \usepackage{graphicx}
-                \usepackage{xspace}
-                \usepackage{capt-of}
-                \usepackage{amsmath}
-                \usepackage{amssymb}
-                \usepackage{amsfonts}
-                \usepackage{amsthm}
-                \usepackage{multirow}
-
                 \title{<>}
                 \author{<>}
-                \institute[NTU]{
-                <>
+                \institute{
+                    <>
                 }
                 \date{\today}
                 \begin{document}
@@ -268,10 +260,12 @@ return {
             ]],
             -- The insert node is placed in the <> angle brackets
             {
-                i(1),
+                i(1, "Meeting"),
                 i(2),
                 i(3),
-                i(4)
+                i(4),
+                i(5),
+                i(6)
             },
             -- This is where I specify that angle brackets are used as node positions.
             { delimiters = "<>" }
@@ -318,6 +312,7 @@ return {
                 \begin{thm}{}{}
                     <>
                 \end{thm}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -332,6 +327,7 @@ return {
                 \begin{cl}{}{}
                     <>
                 \end{cl}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -346,6 +342,7 @@ return {
                 \begin{lm}{}{}
                     <>
                 \end{lm}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -360,6 +357,7 @@ return {
                 \begin{prop}{}{}
                     <>
                 \end{prop}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -374,6 +372,7 @@ return {
                 \begin{clm}{}{}
                     <>
                 \end{clm}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -388,6 +387,7 @@ return {
                 \begin{exs}{}{}
                     <>
                 \end{exs}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -402,6 +402,7 @@ return {
                 \begin{ex}{}{}
                     <>
                 \end{ex}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -416,6 +417,7 @@ return {
                 \begin{df}[colbacktitle=blue!75!white]{}{}
                     <>
                 \end{df}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -430,6 +432,7 @@ return {
                 \begin{qes}{}{}
                     <>
                 \end{qes}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -444,6 +447,7 @@ return {
                 \begin{sol}{}{}
                     <>
                 \end{sol}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -458,6 +462,7 @@ return {
                 \begin{pf}{}{}
                     <>
                 \end{pf}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -472,6 +477,7 @@ return {
                 \begin{nt}{}{}
                     <>
                 \end{nt}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -486,6 +492,7 @@ return {
                 \begin{rc}{}{}
                     <>
                 \end{rc}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },
@@ -500,6 +507,7 @@ return {
                 \begin{rmk}{}{}
                     <>
                 \end{rmk}
+                \hspace*{\fill}\\
             ]],
             -- The insert node is placed in the <> angle brackets
             { d(1,get_visual) },

@@ -8,6 +8,7 @@ _G.leave_snippet = function()
         require('luasnip').unlink_current()
     end
 end
+local cmp_closed = false
 return{
     "hrsh7th/nvim-cmp",
     event = { "BufReadPost", "BufNewFile" },
@@ -28,11 +29,12 @@ return{
                 }
             }
         },
+        "zbirenbaum/copilot-cmp",
     },
     config = function()
         vim.api.nvim_command([[
             autocmd ModeChanged * lua leave_snippet()
-        ]])
+            ]])
         require("luasnip").config.set_config({
             -- Enable autotriggered snippets
             enable_autosnippets = true,
@@ -52,10 +54,17 @@ return{
             local line, col = unpack(vim.api.nvim_win_get_cursor(0))
             return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
         end
+        -- local has_words_before = function()
+        --     if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+        --     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        --     return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
+        -- end
         local in_mathzone = function()
             return vim.fn['vimtex#syntax#in_mathzone']() == 1
         end
         local luasnip = require("luasnip")
+
+        require("copilot_cmp").setup()
 
         local cmp = require 'cmp'
         local options = {
@@ -65,6 +74,7 @@ return{
                 end,
             },
             sources = cmp.config.sources {
+                { name = "copilot" },
                 { name = 'nvim_lsp' },
                 { name = 'path' },
                 { name = 'luasnip' },
@@ -72,25 +82,39 @@ return{
             },
             mapping = cmp.mapping.preset.insert {
                 ["<Tab>"] = cmp.mapping(function(fallback)
+                    -- local copilot_keys = vim.fn['copilot#Accept']()
                     if in_mathzone() then
                         if luasnip.choice_active() then
                             if cmp.visible() then
                                 cmp.close()
+                                cmp_closed = true
                             else
                                 luasnip.change_choice(1)
                             end
+                        elseif cmp_closed then
+                            fallback()
+                            cmp_closed = false
                         elseif cmp.visible() then
-                            cmp.select_next_item()
+                            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                            cmp_closed = false
+                        -- elseif copilot_keys ~= '' and type(copilot_keys) == 'string' then
+                            -- vim.api.nvim_feedkeys(copilot_keys, 'i', true)
                         elseif has_words_before() then
                             cmp.complete()
                         else
                             fallback()
                         end
                     else
-                        if cmp.visible() then
-                            cmp.select_next_item()
+                        if cmp_closed then
+                            fallback()
+                            cmp_closed = false
+                        elseif cmp.visible() then
+                            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                            cmp_closed = false
                         elseif luasnip.choice_active() then
                             luasnip.change_choice(1)
+                        -- elseif copilot_keys ~= '' and type(copilot_keys) == 'string' then
+                        --     vim.api.nvim_feedkeys(copilot_keys, 'i', true)
                         elseif has_words_before() then
                             cmp.complete()
                         else
@@ -99,11 +123,11 @@ return{
                     end
                 end, { "i", "s" }),
 
-                ["<F2>"] = cmp.mapping(function(fallback)
+                ["<F2>"] = cmp.mapping(function() -- fallback)
                     if luasnip.expand_or_jumpable() then
                         luasnip.expand_or_jump()
-                    -- else
-                    --     fallback()
+                        -- else
+                        --     fallback()
                     end
                 end, { "i", "s"}),
 
@@ -115,11 +139,11 @@ return{
                     end
                 end, { "i", "s" }),
 
-                ["<F3>"] = cmp.mapping(function(fallback)
+                ["<F3>"] = cmp.mapping(function() --fallback)
                     if luasnip.jumpable(-1) then
                         luasnip.jump(-1)
-                    -- else
-                    --     fallback()
+                        -- else
+                        --     fallback()
                     end
                 end, { "i", "s"} ),
 
@@ -127,6 +151,7 @@ return{
                 ["<Esc>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         cmp.close()
+                        cmp_closed = true
                     else
                         fallback()
                     end
@@ -148,7 +173,7 @@ return{
                     end
                 },
                 ["<F2>"] = {
-                    c = function(default)
+                    c = function() -- default)
                         if cmp.visible() then
                             return cmp.confirm({ select = true })
                         end
@@ -183,7 +208,7 @@ return{
                     end
                 },
                 ["<F2>"] = {
-                    c = function(default)
+                    c = function() --default)
                         if cmp.visible() then
                             return cmp.confirm({ select = true })
                         end
