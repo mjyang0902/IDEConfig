@@ -377,17 +377,17 @@ return {
             condition = in_mathzone
         }
     ),
-    -- s({trig = '([^%\\])xi', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
-    --     fmta(
-    --         [[<>\xi]],
-    --         {
-    --             f( function(_, snip) return snip.captures[1] end ),
-    --         }
-    --     ),
-    --     {
-    --         condition = in_mathzone
-    --     }
-    -- ),
+    s({trig = '([^%\\])xi', regTrig = true, wordTrig = false},
+        fmta(
+            [[<>\xi]],
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
     s({trig = '([^%\\])zeta', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
             [[<>\zeta]],
@@ -575,7 +575,7 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = '([^%\\])Xi', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = '([^%\\])Xi', regTrig = true, wordTrig = false},
         fmta(
             [[<>\Xi]],
             {
@@ -722,6 +722,61 @@ return {
         fmta(
             [[<>\log]],
 
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '([^%\\])cos', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[<>\cos]],
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '([^%\\])sin', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[<>\sin]],
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '([^%\\])top', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[<>\top]],
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '([^%\\])ker', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[<>\ker]],
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '([^%\\])cdot', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+        fmta(
+            [[<>\cdot]],
             {
                 f( function(_, snip) return snip.captures[1] end ),
             }
@@ -1008,6 +1063,18 @@ return {
             condition = in_mathzone
         }
     ),
+    s({trig = '!=', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+        t("\\neq "),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = '~', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+        t("\\sim "),
+        {
+            condition = in_mathzone
+        }
+    ),
     s({trig = 'aa', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
         t("\\forall "),
         {
@@ -1037,7 +1104,7 @@ return {
     --     ), { condition=in_mathzone, show_condition=in_mathzone}),
     s({trig = "([%s])lp", regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
         fmta(
-            [[\|<>\|_{L^{<>}}]],
+            [[\left\|<>\right\|_{L^{<>}}]],
             {
                 d(1, get_visual),
                 i(2, "p"),
@@ -1049,7 +1116,19 @@ return {
     ),
     s({trig = "snm", regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
         fmta(
-            [[\|<>\|_{\psi_{<>}}]],
+            [[\left\|<>\right\|_{\psi_{<>}}]],
+            {
+                d(1, get_visual),
+                i(2, "2"),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = "nm", regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+        fmta(
+            [[\left\|<>\right\|_{<>}]],
             {
                 d(1, get_visual),
                 i(2, "2"),
@@ -1070,9 +1149,42 @@ return {
             condition = in_mathzone
         }
     ),
+    s({trig = "cov", regTrig = true, wordTrig = false},
+        fmta(
+            [[\text{Cov}\left(<>\right)]],
+            {
+                d(1, get_visual),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = "unif", regTrig = true, wordTrig = false},
+        fmta(
+            [[\mathcal{U}\text{nif}\left(<>\right)]],
+            {
+                d(1, get_visual),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = "tr", regTrig = true, wordTrig = false},
+        fmta(
+            [[\text{tr}\left(<>\right)]],
+            {
+                d(1, get_visual),
+            }
+        ),
+        {
+            condition = in_mathzone
+        }
+    ),
     s({trig = "lan", regTrig = true, wordTrig = false},
         fmta(
-            [[\langle <>\rangle]],
+            [[\left\langle <>\right\rangle]],
             {
                 d(1, get_visual),
             }
