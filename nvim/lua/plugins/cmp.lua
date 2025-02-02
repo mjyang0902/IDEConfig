@@ -79,6 +79,7 @@ return{
                 { name = 'path' },
                 { name = 'luasnip' },
                 { name = "buffer" },
+                { name = 'render-markdown' },
             },
             mapping = cmp.mapping.preset.insert {
                 ["<Tab>"] = cmp.mapping(function(fallback)
