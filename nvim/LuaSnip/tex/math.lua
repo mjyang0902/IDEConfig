@@ -1102,10 +1102,11 @@ return {
     --         end, {}), i(0) },
     --         { delimiters='<>' }
     --     ), { condition=in_mathzone, show_condition=in_mathzone}),
-    s({trig = "([%s])lp", regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+    s({trig = "([^%a])lp", regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
         fmta(
-            [[\left\|<>\right\|_{L^{<>}}]],
+            [[<>\left\|<>\right\|_{L^{<>}}]],
             {
+                f( function(_, snip) return snip.captures[1] end ),
                 d(1, get_visual),
                 i(2, "p"),
             }
