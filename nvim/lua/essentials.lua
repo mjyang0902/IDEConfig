@@ -58,12 +58,14 @@ vim.keymap.set("n", "<C-l>", "<C-w>l")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 
+-- terminal mode setting only in toggleterm
+
 --vim.keymap.set("t", "<C-h>", "<C-w>h")
 --vim.keymap.set("t", "<C-l>", "<C-w>l")
 --vim.keymap.set("t", "<C-j>", "<C-w>j")
 --vim.keymap.set("t", "<C-k>", "<C-w>k")
 --
-vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]])
+-- vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]])
 -- vim.keymap.set('t', 'jk', [[<C-\><C-n>]])
 
 vim.keymap.set("n", "<CR>", "a<CR><Esc>k$")
@@ -85,5 +87,3 @@ vim.keymap.set("n", "<leader>q!", ":q!", { silent = true })
 vim.keymap.set("n", "<leader>wq!", ":wq!", { silent = true })
 
 vim.keymap.set("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" })
-
-
