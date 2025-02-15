@@ -34,6 +34,7 @@ option.wrap = false
 option.splitright = true
 option.conceallevel = 2
 option.fillchars = { eob = " " }
+option.laststatus = 3
 
 -- Buffer Settings --
 buffer.fileencoding = "utf-8"
@@ -87,3 +88,11 @@ vim.keymap.set("n", "<leader>q!", ":q!", { silent = true })
 vim.keymap.set("n", "<leader>wq!", ":wq!", { silent = true })
 
 vim.keymap.set("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" })
+
+vim.api.nvim_create_autocmd({"BufEnter"}, {
+  pattern = "NvimTree_*",
+  callback = function()
+    vim.cmd("file NvimTree")
+  end,
+})
+

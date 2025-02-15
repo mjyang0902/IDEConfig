@@ -6,7 +6,11 @@ M.base46 = {
 }
 
 M.ui = {
-    -- statusline = {theme = 'vscode_colored'},
+    statusline = {
+        -- theme = 'vscode',
+        separator_style = "default",
+        -- theme = require("custom.statusline"),
+    },
 
     cmp = {
         icons_left = true

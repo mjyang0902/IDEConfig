@@ -92,9 +92,9 @@ return {
     --         "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
     --         "MunifTanjim/nui.nvim",
     --     },
-        -- keys = {
-        --     { "<leader>e", "<cmd>Neotree toggle<CR>", desc = "Open the neo-tree", mode = { "n", "v" } }
-        -- },
+    --     keys = {
+    --         { "<leader>e", "<cmd>Neotree toggle<CR>", desc = "Open the neo-tree", mode = { "n", "v" } }
+    --     },
     --     config = function()
     --         require("neo-tree").setup({
     --             source_selector = {
