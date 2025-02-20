@@ -14,6 +14,7 @@ return {
         "nvimdev/lspsaga.nvim",
     },
     config = function()
+        vim.lsp.handlers["textDocument/hover"] = function() end
         local servers = {
             lua_ls = {
                 settings = {
@@ -30,7 +31,7 @@ return {
                     }
                 },
             },
-            clangd = {},
+            -- clangd = {},
             jsonls = {},
             marksman = {},
             volar = {},
@@ -54,7 +55,7 @@ return {
 
             nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
             nmap('gd', require "telescope.builtin".lsp_definitions, '[G]oto [D]efinition')
-            nmap('K', "<cmd>Lspsaga hover_doc<CR>", 'Hover Documentation')
+            -- nmap('K', "<cmd>Lspsaga hover_doc<CR>", 'Hover Documentation')
             nmap('gi', require "telescope.builtin".lsp_implementations, '[G]oto [I]mplementation')
             nmap('<leader>k', vim.lsp.buf.signature_help, 'Signature Documentation')
             nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
@@ -72,16 +73,29 @@ return {
                 vim.lsp.buf.format { async = true }
             end, "[F]ormat code")
         end
+
+
         require("neoconf").setup()
         require("neodev").setup()
         require("fidget").setup({
             notification = {
                 window = {
-                    winblend = 0,
+                    winblend = 10,
                 },
             }
         })
-        require("lspsaga").setup()
+        require("lspsaga").setup({
+            hover = {
+                max_width = 0.8,
+                max_height = 0.8,
+                border = "rounded",
+                focusable = false,
+            },
+            ui = {
+                border = "rounded",
+                title = false,
+            }
+        })
         require("mason").setup()
         local capabilities = require('cmp_nvim_lsp').default_capabilities()
         require("mason-lspconfig").setup({

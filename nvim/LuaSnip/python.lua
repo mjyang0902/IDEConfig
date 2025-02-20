@@ -25,14 +25,37 @@ local parse = require("luasnip.util.parser").parse_snippet
 local ms = ls.multi_snippet
 local k = require("luasnip.nodes.key_indexer").new_key
 
+local line_begin = require("luasnip.extras.expand_conditions").line_begin
+
 return {
-    s({ trig = "def", dscr = "Code snippet for function definition."}, {
-        t"def ", i(1, "name"), t"(", i(2, "arg"), t({"):", "\t"}), i(3, "pass")
-    }),
-    s({ trig = "class", dscr = "Code snippet for a class definition."}, {
-        t("class "), i(1, "Classname"), t("("), i(2, "object"), t({"): ", "\t"}),
-        i(3, "pass")
-    }),
+    s({trig="def", dscr = "Code snippet for function definition."},
+        fmta(
+            [[
+                def <>(<>):
+                    <>
+            ]],
+            {
+                i(1, "name"),
+                i(2, "arg"),
+                i(3, "pass"),
+            }
+        ),
+        {condition = line_begin}
+    ),
+    s({trig="class", dscr = "Code snippet for a class definition."},
+        fmta(
+            [[
+                class <>(<>): 
+                    <>
+            ]],
+            {
+                i(1, "Classname"),
+                i(2, "object"),
+                i(3, "pass"),
+            }
+        ),
+        {condition = line_begin}
+    ),
     s({ trig = "if", dscr = "Code snippet for the if statement." }, {
         t"if ", i(1, "condition"), t({":", "\t"}), i(2, "pass")
     }),
