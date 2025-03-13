@@ -1,4 +1,3 @@
-
 return {
     {
         "rainbowhxch/accelerated-jk.nvim",
@@ -78,6 +77,7 @@ return {
         event = "VeryLazy",
         config = function()
             vim.g.spelunker_check_type = 2
+            -- highlight SpelunkerSpellBad cterm=NONE ctermfg=247 gui=NONE guifg=#9e9e9e
         end
     },
     {
@@ -154,7 +154,7 @@ return {
         keys = {
             { "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "Open the nvim-tree", mode = { "n", "v" } }
         },
-        config = function ()
+        config = function()
             dofile(vim.g.base46_cache .. "nvimtree")
             require("nvim-tree").setup({
                 filters = { dotfiles = false },

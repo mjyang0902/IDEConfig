@@ -89,10 +89,51 @@ vim.keymap.set("n", "<leader>wq!", ":wq!", { silent = true })
 
 vim.keymap.set("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" })
 
+-- vim.keymap.set("n", "w", "<cmd>silent write<CR>", { silent = true })
+
 vim.api.nvim_create_autocmd({"BufEnter"}, {
   pattern = "NvimTree_*",
   callback = function()
     vim.cmd("file NvimTree")
   end,
+})
+
+
+vim.cmd [[highlight SpelunkerSpellBad cterm=NONE ctermfg=247 gui=undercurl guisp=#ff1212 ]]
+-- vim.cmd [[highlight SpelunkerSpellBad cterm=NONE ctermfg=247 gui=NONE guifg=#9e9e9e]]
+vim.cmd [[highlight SpelunkerComplexOrCompoundWord cterm=NONE ctermfg=NONE gui=NONE guifg=NONE]]
+
+vim.api.nvim_set_hl(0, "@property", { fg = "#569CD6" })
+
+-- vim.cmd [[highlight @property guifg=#569CD6]]
+
+vim.opt.cmdheight = 1
+
+-- vim.api.nvim_create_autocmd('CodlingEnter', {
+--     group = vim.api.nvim_create_augroup(
+--         'cmdheight_1_on_cmdlineenter',
+--         { clear = true }
+--     ),
+--     desc = 'Don\'t hide the status line when typing a command',
+--     command = ':set cmdheight=1',
+-- })
+
+vim.api.nvim_create_autocmd('CmdlineLeave', {
+    group = vim.api.nvim_create_augroup(
+        'cmdheight_0_on_cmdlineleave',
+        { clear = true }
+    ),
+    desc = 'Hide cmdline when not typing a command',
+    command = ':set cmdheight=0',
+})
+
+vim.api.nvim_create_autocmd('BufWritePost', {
+    group = vim.api.nvim_create_augroup(
+        'hide_message_after_write',
+        { clear = true }
+    ),
+    desc = 'Get rid of message after writing a file',
+    pattern = { '*' },
+    command = 'redrawstatus',
 })
 

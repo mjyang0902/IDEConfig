@@ -1,5 +1,7 @@
 font-family = JetBrainsMono Nerd Font 
 
 font-size = 15
-theme = catppuccin-mocha
+# theme = catppuccin-mocha
+# theme = Github Dark
+theme = Dark+
 

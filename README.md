@@ -4,6 +4,7 @@ THis is my configuration about IDE, which include
 - Neovim
 - Luasnip
 - oh-my-posh
+- Tmux
 
 First of all, install Homebrew, a powerful package manager for Macos and Linux.
 ```
@@ -26,6 +27,8 @@ also require `gcc` or `clang`, `make`
 ```
 brew install gcc make
 ```
+## Tmux
+
 ## Zathura 
 Make an icon of zathura, try [this](https://github.com/zegervdv/homebrew-zathura/issues/122)
 1. Create a New Directory:
