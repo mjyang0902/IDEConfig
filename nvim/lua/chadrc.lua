@@ -7,6 +7,8 @@ M.base46 = {
     hl_override = {
         LineNr = { fg = "#256173" },  -- VS Code 深色行號
         CursorLineNr = { fg = "#569CD6", bold = true }  -- 當前行號（藍色）
+        -- StatusLine = { fg = "#FFFFFF", bg = "#007ACC" },  -- 白色字 + VSCode 藍色背景
+        -- StatusLineNC = { fg = "#CCCCCC", bg = "#005F9E" }, 
     }
     -- hl_override = {
     --     Normal = { bg = "#1E1E1E", fg = "#D4D4D4" }, -- 主要背景 & 文字顏色
