@@ -59,16 +59,6 @@ vim.keymap.set("n", "<C-l>", "<C-w>l")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 
--- terminal mode setting only in toggleterm
-
---vim.keymap.set("t", "<C-h>", "<C-w>h")
---vim.keymap.set("t", "<C-l>", "<C-w>l")
---vim.keymap.set("t", "<C-j>", "<C-w>j")
---vim.keymap.set("t", "<C-k>", "<C-w>k")
---
--- vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]])
--- vim.keymap.set('t', 'jk', [[<C-\><C-n>]])
-
 vim.keymap.set("n", "<CR>", "a<CR><Esc>k$")
 
 vim.keymap.set("n", "<Tab>", "<cmd>bNext<CR>", { silent = true })
@@ -89,6 +79,7 @@ vim.keymap.set("n", "<leader>wq!", ":wq!", { silent = true })
 
 vim.keymap.set("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" })
 
+
 -- vim.keymap.set("n", "w", "<cmd>silent write<CR>", { silent = true })
 
 vim.api.nvim_create_autocmd({"BufEnter"}, {
@@ -100,23 +91,11 @@ vim.api.nvim_create_autocmd({"BufEnter"}, {
 
 
 vim.cmd [[highlight SpelunkerSpellBad cterm=NONE ctermfg=247 gui=undercurl guisp=#ff1212 ]]
--- vim.cmd [[highlight SpelunkerSpellBad cterm=NONE ctermfg=247 gui=NONE guifg=#9e9e9e]]
 vim.cmd [[highlight SpelunkerComplexOrCompoundWord cterm=NONE ctermfg=NONE gui=NONE guifg=NONE]]
 
 vim.api.nvim_set_hl(0, "@property", { fg = "#569CD6" })
 
--- vim.cmd [[highlight @property guifg=#569CD6]]
-
 vim.opt.cmdheight = 1
-
--- vim.api.nvim_create_autocmd('CodlingEnter', {
---     group = vim.api.nvim_create_augroup(
---         'cmdheight_1_on_cmdlineenter',
---         { clear = true }
---     ),
---     desc = 'Don\'t hide the status line when typing a command',
---     command = ':set cmdheight=1',
--- })
 
 vim.api.nvim_create_autocmd('CmdlineLeave', {
     group = vim.api.nvim_create_augroup(
@@ -136,5 +115,6 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     pattern = { '*' },
     command = 'redrawstatus',
 })
+
 
 
