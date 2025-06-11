@@ -785,19 +785,19 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = 'sr', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = '([^%\\])sr', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         t("^{2}"),
         {
             condition = in_mathzone
         }
     ),
-    s({trig = 'cb', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = '([^%\\])cb', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         t("^{3}"),
         {
             condition = in_mathzone
         }
     ),
-    s({trig = "td", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = "([^%\\])td", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
             [[^{<>}]],
             {
@@ -808,7 +808,7 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = "sb", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = "([^%\\])sb", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
             [[_{<>}]],
             {
@@ -819,7 +819,7 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = "sq", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = "([^%\\])sq", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
             [[\sqrt{<>}]],
             {
@@ -830,7 +830,7 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = "tii", dscr = "Expands 'tii' into LaTeX's textit{} command.", snippetType = "autosnippet"},
+    s({trig = "([^%\\])tii", dscr = "Expands 'tii' into LaTeX's textit{} command.", snippetType = "autosnippet"},
         fmta("\\textit{<>}",
             {
                 d(1, get_visual),
@@ -1089,6 +1089,12 @@ return {
     ),
     s({trig = 'cc', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
         t("\\subset"),
+        {
+            condition = in_mathzone
+        }
+    ),
+    s({trig = ':=', regTrig = true, wordTrig = false, snippetType = "autosnippet", priority = 100},
+        t("\\coloneqq"),
         {
             condition = in_mathzone
         }

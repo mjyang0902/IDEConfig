@@ -49,10 +49,17 @@ vim.keymap.set({ "n", "i", "v" }, "<Right>", "<Nop>")
 vim.keymap.set({ "n", "i", "v" }, "<Up>", "<Nop>")
 vim.keymap.set({ "n", "i", "v" }, "<Down>", "<Nop>")
 
+vim.keymap.set({ "n", "v" }, "<leader>y", '"*y', { noremap = true, silent = true })
+
+
 vim.keymap.set("i", "<C-h>", "<Left>")
 vim.keymap.set("i", "<C-l>", "<Right>")
 vim.keymap.set("i", "<C-j>", "<Down>")
 vim.keymap.set("i", "<C-k>", "<Up>")
+
+vim.keymap.set("i", "<F1>", 'copilot#Accept("<CR>")', {noremap = true, silent = true, expr=true, replace_keycodes = false })
+vim.keymap.set("i", "<F2>", "copilot#Next()", {noremap = true, silent = true, expr=true, replace_keycodes = false })
+vim.keymap.set("i", "<F3>", "copilot#Previous()", {noremap = true, silent = true, expr=true, replace_keycodes = false })
 
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
@@ -67,6 +74,11 @@ vim.keymap.set("n", "<leader>bc", "<cmd>bd<CR>")
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
+vim.schedule(function()
+  vim.keymap.set("v", "<Tab>", ">gv", { noremap = true, silent = true })
+  vim.keymap.set("v", "<S-Tab>", "<gv", { noremap = true, silent = true })
+end)
+
 vim.keymap.set({ "v", "n" } , "<leader>y", "\"+y")
 
 vim.keymap.set("i", "jk", "<ESC>")
@@ -78,9 +90,6 @@ vim.keymap.set("n", "<leader>q!", ":q!", { silent = true })
 vim.keymap.set("n", "<leader>wq!", ":wq!", { silent = true })
 
 vim.keymap.set("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "toggle nvcheatsheet" })
-
-
--- vim.keymap.set("n", "w", "<cmd>silent write<CR>", { silent = true })
 
 vim.api.nvim_create_autocmd({"BufEnter"}, {
   pattern = "NvimTree_*",

@@ -8,7 +8,6 @@ _G.leave_snippet = function()
         require('luasnip').unlink_current()
     end
 end
-local cmp_closed = false
 return{
     "hrsh7th/nvim-cmp",
     event = { "BufReadPost", "BufNewFile" },
@@ -74,7 +73,7 @@ return{
                 end,
             },
             sources = cmp.config.sources {
-                { name = "copilot" },
+                -- { name = "copilot" },
                 { name = 'nvim_lsp' },
                 { name = 'path' },
                 { name = 'luasnip' },
@@ -83,39 +82,26 @@ return{
             },
             mapping = cmp.mapping.preset.insert {
                 ["<Tab>"] = cmp.mapping(function(fallback)
-                    -- local copilot_keys = vim.fn['copilot#Accept']()
                     if in_mathzone() then
                         if luasnip.choice_active() then
                             if cmp.visible() then
                                 cmp.close()
-                                cmp_closed = true
                             else
                                 luasnip.change_choice(1)
                             end
-                        elseif cmp_closed then
-                            fallback()
-                            cmp_closed = false
                         elseif cmp.visible() then
                             cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-                            cmp_closed = false
-                        -- elseif copilot_keys ~= '' and type(copilot_keys) == 'string' then
-                            -- vim.api.nvim_feedkeys(copilot_keys, 'i', true)
+
                         elseif has_words_before() then
                             cmp.complete()
                         else
                             fallback()
                         end
                     else
-                        if cmp_closed then
-                            fallback()
-                            cmp_closed = false
-                        elseif cmp.visible() then
+                        if cmp.visible() then
                             cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-                            cmp_closed = false
                         elseif luasnip.choice_active() then
                             luasnip.change_choice(1)
-                        -- elseif copilot_keys ~= '' and type(copilot_keys) == 'string' then
-                        --     vim.api.nvim_feedkeys(copilot_keys, 'i', true)
                         elseif has_words_before() then
                             cmp.complete()
                         else
@@ -152,7 +138,6 @@ return{
                 ["<Esc>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         cmp.close()
-                        cmp_closed = true
                     else
                         fallback()
                     end
