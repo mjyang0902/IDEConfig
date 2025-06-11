@@ -102,6 +102,8 @@ vim.api.nvim_create_autocmd({"BufEnter"}, {
 vim.cmd [[highlight SpelunkerSpellBad cterm=NONE ctermfg=247 gui=undercurl guisp=#ff1212 ]]
 vim.cmd [[highlight SpelunkerComplexOrCompoundWord cterm=NONE ctermfg=NONE gui=NONE guifg=NONE]]
 
+vim.g.copilot_no_tab_map = true
+
 vim.api.nvim_set_hl(0, "@property", { fg = "#569CD6" })
 
 vim.opt.cmdheight = 1
