@@ -26,6 +26,7 @@ return {
         opts = {
             -- add any opts here
             -- for example
+            use_cwd_as_project_root = false,
             provider = "copilot",
             auto_suggestions_provider = "copilot",
             selector = {

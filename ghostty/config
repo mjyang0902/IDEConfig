@@ -5,3 +5,5 @@ font-size = 15
 # theme = Github Dark
 theme = Dark+
 
+keybind = performable:ctrl+c=copy_to_clipboard
+

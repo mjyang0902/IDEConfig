@@ -785,19 +785,19 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = '([^%\\])sr', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = 'sr', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         t("^{2}"),
         {
             condition = in_mathzone
         }
     ),
-    s({trig = '([^%\\])cb', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = 'cb', regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         t("^{3}"),
         {
             condition = in_mathzone
         }
     ),
-    s({trig = "([^%\\])td", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = "td", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
             [[^{<>}]],
             {
@@ -808,7 +808,7 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = "([^%\\])sb", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    s({trig = "sb", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
         fmta(
             [[_{<>}]],
             {
