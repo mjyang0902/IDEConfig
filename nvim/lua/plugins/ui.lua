@@ -44,7 +44,14 @@ return {
         "nvchad/ui",
         config = function()
             require "nvchad"
-        end
+        end,
+        vim.keymap.set("n", "<Tab>", function()
+            require("nvchad.tabufline").next()
+        end, { desc = "Next buffer (left→right)" }),
+
+        vim.keymap.set("n", "<S-Tab>", function()
+            require("nvchad.tabufline").prev()
+        end, { desc = "Prev buffer (right→left)" })
     },
     {
         "nvchad/base46",

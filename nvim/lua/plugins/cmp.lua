@@ -82,6 +82,10 @@ return{
             },
             mapping = cmp.mapping.preset.insert {
                 ["<Tab>"] = cmp.mapping(function(fallback)
+                    local has_sidekick, sidekick = pcall(require, "sidekick")
+                    if has_sidekick and sidekick.nes_jump_or_apply() then
+                        return
+                    end
                     if in_mathzone() then
                         if luasnip.choice_active() then
                             if cmp.visible() then

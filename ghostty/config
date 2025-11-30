@@ -6,4 +6,4 @@ font-size = 15
 theme = Dark+
 
 keybind = performable:ctrl+c=copy_to_clipboard
-
+clipboard-write = allow

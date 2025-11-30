@@ -90,15 +90,14 @@ return {
     s({trig="fig"},
         fmta( -- The snippet code actually looks like the equation environment it produces.
             [[
-                    \begin{figure}{label=<>}
-                        \includegraphics[scale=<>]{figures/<>.jpg}
+                    \begin{figure}
+                        \includegraphics[width=<>\textwidth]{figures/<>.png}
                     \end{figure}
                 ]],
             -- The insert node is placed in the <> angle brackets
             {
-                i(1),
-                i(2,"0.5"),
-                i(3),
+                i(1,"0.8"),
+                i(2),
             },
             -- This is where I specify that angle brackets are used as node positions.
             { delimiters = "<>" }
