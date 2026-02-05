@@ -1,23 +1,18 @@
 local M = {}
 
 M.base46 = {
-    -- theme = 'catppuccin',
-    theme = "vscode_dark",
-    -- theme = "onedark",
-    hl_override = {
-        LineNr = { fg = "#256173" },
-        CursorLineNr = { fg = "#569CD6", bold = true },
-    }
+    theme='catppuccin',
+    -- transparency = true
 }
 
 M.ui = {
     statusline = {
-        theme = 'default',
+        theme = 'vscode_colored',
         separator_style = "arrow",
     },
-
     cmp = {
-        icons_left = true
-    },
+        icons_left = true,
+        style = "atom_colored",
+    }
 }
 return M

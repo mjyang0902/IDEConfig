@@ -1,37 +1,9 @@
 return {
     {
-        "lukas-reineke/indent-blankline.nvim",
-        event = "VeryLazy",
-        opts = {
-            indent = { char = "│", highlight = "IblChar" },
-            scope = { char = "│", highlight = "IblScopeChar" },
-        },
-        config = function(_, opts)
-            dofile(vim.g.base46_cache .. "blankline")
-
-            local hooks = require "ibl.hooks"
-            hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
-            require("ibl").setup(opts)
-        end,
-    },
-    {
         "lewis6991/gitsigns.nvim",
         event = "VeryLazy",
         config = function()
             require('gitsigns').setup()
-        end
-    },
-    {
-        "goolord/alpha-nvim",
-        config = function()
-            require'alpha'.setup(require'alpha.themes.dashboard'.config)
-        end
-    },
-    {
-        "RRethy/vim-illuminate",
-        event = "VeryLazy",
-        config = function()
-            require('illuminate').configure()
         end
     },
     "nvchad/volt",
@@ -43,16 +15,10 @@ return {
     {
         "nvchad/ui",
         config = function()
-            require "nvchad"
-        end,
-        vim.keymap.set("n", "<Tab>", function()
-            require("nvchad.tabufline").next()
-        end, { desc = "Next buffer (left→right)" }),
-
-        vim.keymap.set("n", "<S-Tab>", function()
-            require("nvchad.tabufline").prev()
-        end, { desc = "Prev buffer (right→left)" })
+            require "nvchad" 
+        end
     },
+
     {
         "nvchad/base46",
         lazy = true,
@@ -64,4 +30,3 @@ return {
         end, { desc = "telescope nvchad themes" })
     },
 }
-

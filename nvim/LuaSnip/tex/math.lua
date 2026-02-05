@@ -892,16 +892,33 @@ return {
             condition = in_mathzone
         }
     ),
-    s({trig = "([%a%}%s])'", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
-        fmta(
-            [[<>^{\prime}]],
-            {
-                f( function(_, snip) return snip.captures[1] end ),
-
-            }
-        ),
+    -- s({trig = "([%a%}%s])'", regTrig = true, wordTrig = false, snippetType = "autosnippet"},
+    --     fmta(
+    --         [[<>^{\prime}]],
+    --         {
+    --             f( function(_, snip) return snip.captures[1] end ),
+    --
+    --         }
+    --     ),
+    --     {
+    --         condition = in_mathzone
+    --     }
+    -- ),
+    s({trig = "'", snippetType = "autosnippet", wordTrig = false},
         {
-            condition = in_mathzone
+            t("^{\\prime}"),
+        },
+        {
+            condition = function()
+                if not in_mathzone() then return false end
+
+                local line = vim.api.nvim_get_current_line()
+                local col = vim.api.nvim_win_get_cursor(0)[2]
+
+                if col <= 1 then return false end
+                local char_before_trigger = line:sub(col - 1, col - 1)
+                return char_before_trigger:match("[%a%}%s]") ~= nil
+            end
         }
     ),
     s({trig = '([^%\\])left', regTrig = true, wordTrig = false, snippetType = "autosnippet"},

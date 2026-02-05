@@ -9,7 +9,7 @@ return {
     },
     keys = {
         { '<leader>?',       "<cmd>lua require('telescope.builtin').oldfiles()<cr>" },
-        { "<leader><space>", "<cmd>lua require('telescope.builtin').buffers({ sort_mru = true })<cr>" },
+        -- { "<leader><space>", "<cmd>lua require('telescope.builtin').buffers({ sort_mru = true })<cr>" },
         { "<leader>/",
             function()
                 -- You can pass additional configuration to telescope to change theme, layout, etc.
@@ -19,8 +19,8 @@ return {
                 })
             end
         },
-        { '<leader>ff', "<cmd>lua require('telescope.builtin').find_files()<cr>" },
-        { '<leader>fg', "<cmd>lua require('telescope.builtin').live_grep()<cr>" },
+        -- { '<leader>ff', "<cmd>lua require('telescope.builtin').find_files()<cr>" },
+        -- { '<leader>fg', "<cmd>lua require('telescope.builtin').live_grep()<cr>" },
         { '<leader>fh', "<cmd>lua require('telescope.builtin').help_tags()<cr>" },
         { '<leader>fp', "<cmd>lua require('telescope.builtin').builtin()<cr>" },
         { '<leader>fm', "<cmd>lua require('telescope.builtin').marks()<cr>" },
@@ -61,5 +61,7 @@ return {
         require('telescope').load_extension('fzf')
     end
 }
+
+
 
 

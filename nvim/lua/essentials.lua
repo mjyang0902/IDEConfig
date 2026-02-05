@@ -41,7 +41,6 @@ buffer.fileencoding = "utf-8"
 
 -- Global Settings --
 global.mapleader = " "
-global.base46_cache = vim.fn.stdpath "data" .. "/base46_cache/"
 
 -- Key Mappings --
 vim.keymap.set({ "n", "i", "v" }, "<Left>", "<Nop>")
@@ -57,9 +56,9 @@ vim.keymap.set("i", "<C-l>", "<Right>")
 vim.keymap.set("i", "<C-j>", "<Down>")
 vim.keymap.set("i", "<C-k>", "<Up>")
 
-vim.keymap.set("i", "<F1>", 'copilot#Accept("<CR>")', {noremap = true, silent = true, expr=true, replace_keycodes = false })
-vim.keymap.set("i", "<F2>", "copilot#Next()", {noremap = true, silent = true, expr=true, replace_keycodes = false })
-vim.keymap.set("i", "<F3>", "copilot#Previous()", {noremap = true, silent = true, expr=true, replace_keycodes = false })
+-- vim.keymap.set("i", "<F1>", 'copilot#Accept("<CR>")', {noremap = true, silent = true, expr=true, replace_keycodes = false })
+-- vim.keymap.set("i", "<F2>", "copilot#Next()", {noremap = true, silent = true, expr=true, replace_keycodes = false })
+-- vim.keymap.set("i", "<F3>", "copilot#Previous()", {noremap = true, silent = true, expr=true, replace_keycodes = false })
 
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
@@ -81,7 +80,7 @@ end)
 
 vim.keymap.set({ "v", "n" } , "<leader>y", "\"+y")
 
-vim.keymap.set("i", "jk", "<ESC>")
+vim.keymap.set({"i", "t"} , "jk", "<ESC>")
 vim.keymap.set("n", "<leader>w", ":w", { silent = true })
 vim.keymap.set("n", "<leader>q", ":q", { silent = true })
 vim.keymap.set("n", "<leader>wq", ":wq", { silent = true })
@@ -100,13 +99,12 @@ vim.api.nvim_create_autocmd({"BufEnter"}, {
 
 
 vim.cmd [[highlight SpelunkerSpellBad cterm=NONE ctermfg=247 gui=undercurl guisp=#ff1212 ]]
-vim.cmd [[highlight SpelunkerComplexOrCompoundWord cterm=NONE ctermfg=NONE gui=NONE guifg=NONE]]
 
 vim.g.copilot_no_tab_map = true
 
 vim.api.nvim_set_hl(0, "@property", { fg = "#569CD6" })
-
-vim.opt.cmdheight = 1
+vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#7aa2f7", bg = "NONE" })
+vim.opt.cmdheight = 1 
 
 vim.api.nvim_create_autocmd('CmdlineLeave', {
     group = vim.api.nvim_create_augroup(
@@ -126,6 +124,3 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     pattern = { '*' },
     command = 'redrawstatus',
 })
-
-
-

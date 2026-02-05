@@ -8,7 +8,7 @@ _G.leave_snippet = function()
         require('luasnip').unlink_current()
     end
 end
-return{
+return {
     "hrsh7th/nvim-cmp",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
@@ -53,11 +53,7 @@ return{
             local line, col = unpack(vim.api.nvim_win_get_cursor(0))
             return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
         end
-        -- local has_words_before = function()
-        --     if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
-        --     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        --     return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
-        -- end
+
         local in_mathzone = function()
             return vim.fn['vimtex#syntax#in_mathzone']() == 1
         end
@@ -69,7 +65,7 @@ return{
         local options = {
             snippet = {
                 expand = function(args)
-                    require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                    require('luasnip').lsp_expand(args.body)
                 end,
             },
             sources = cmp.config.sources {
@@ -148,7 +144,19 @@ return{
                 end, { "i", "s"} ),
             },
         }
+
         options = vim.tbl_deep_extend("force", options, require "nvchad.cmp")
+        local cmp = require 'cmp'
+        options.window = {
+            completion = cmp.config.window.bordered({
+                border = "rounded",
+                winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+            }),
+            documentation = cmp.config.window.bordered({
+                border = "rounded",
+                winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+            }),
+        }
         require("cmp").setup(options)
 
         cmp.setup.cmdline('/', {
@@ -232,4 +240,7 @@ return{
         })
     end,
 }
+
+
+
 
