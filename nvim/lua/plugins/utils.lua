@@ -60,6 +60,10 @@ return {
     {
         "nvim-tree/nvim-web-devicons",
     },
+    {
+        "karb94/neoscroll.nvim",
+        opts = {},
+    },
 
 
 }

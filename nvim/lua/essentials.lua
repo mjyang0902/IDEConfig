@@ -51,7 +51,7 @@ vim.keymap.set({ "n", "i", "v" }, "<Down>", "<Nop>")
 vim.keymap.set({ "n", "v" }, "<leader>y", '"*y', { noremap = true, silent = true })
 
 
-vim.keymap.set("i", "<C-h>", "<Left>")
+vim.keymap.set("i", "<C-h>", "<Left>")  
 vim.keymap.set("i", "<C-l>", "<Right>")
 vim.keymap.set("i", "<C-j>", "<Down>")
 vim.keymap.set("i", "<C-k>", "<Up>")
@@ -67,16 +67,25 @@ vim.keymap.set("n", "<C-k>", "<C-w>k")
 
 vim.keymap.set("n", "<CR>", "a<CR><Esc>k$")
 
-vim.keymap.set("n", "<Tab>", "<cmd>bNext<CR>", { silent = true })
+vim.keymap.set("n", "<S-l>", function()
+    require("nvchad.tabufline").next()
+end, { desc = "Goto next buffer" })
+
+vim.keymap.set("n", "<S-h>", function()
+    require("nvchad.tabufline").prev()
+end, { desc = "Goto previous buffer" })
+
 vim.keymap.set("n", "<leader>bc", "<cmd>bd<CR>")
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.
+set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 vim.schedule(function()
   vim.keymap.set("v", "<Tab>", ">gv", { noremap = true, silent = true })
   vim.keymap.set("v", "<S-Tab>", "<gv", { noremap = true, silent = true })
 end)
+
 
 vim.keymap.set({ "v", "n" } , "<leader>y", "\"+y")
 
@@ -124,3 +133,16 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     pattern = { '*' },
     command = 'redrawstatus',
 })
+
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+  },
+}
+

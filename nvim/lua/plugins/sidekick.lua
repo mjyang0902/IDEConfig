@@ -11,17 +11,6 @@ return {
     },
     keys = {
         {
-            "<tab>",
-            function()
-                if vim.bo.ft == "nvcheatsheet" or vim.bo.ft == "NvimTree" then return end
-                if require("sidekick").nes_jump_or_apply() then return end
-                -- require("nvchad.tabufline").next()
-            end,
-            expr = true,
-            desc = "Goto/Apply Next Edit Suggestion",
-            mode = {"n"},
-        },
-        {
             "<c-.>",
             function() require("sidekick.cli").toggle() end,
             desc = "Sidekick Toggle",
@@ -31,17 +20,20 @@ return {
             "<leader>aa",
             function() require("sidekick.cli").toggle() end,
             desc = "Sidekick Toggle CLI",
+            mode = { "n", "t", "x" },
         },
         {
             "<leader>as",
             function() require("sidekick.cli").select() end,
             -- Or to select only installed tools:
             -- require("sidekick.cli").select({ filter = { installed = true } })
+            mode = { "n", "t", "x" },
             desc = "Select CLI",
         },
         {
             "<leader>ad",
             function() require("sidekick.cli").close() end,
+            mode = { "n", "t", "x" },
             desc = "Detach a CLI Session",
         },
         {
@@ -71,27 +63,30 @@ return {
         {
             "<leader>ac",
             function() require("sidekick.cli").toggle({ name = "claude", focus = true }) end,
+            mode = { "n", "t", "x" },
             desc = "Sidekick Toggle Claude",
         },
     },
     config = function(_, opts)
         require("sidekick").setup(opts)
+        
+        -- Soft green for added lines
         vim.api.nvim_set_hl(0, "SidekickDiffAdd", { 
-            fg = "#98c379", 
+            fg = "#73daca", 
             bg = "#1f2335",
             italic = true   
         })
 
-       
+        -- Dim blue-gray for deleted lines
         vim.api.nvim_set_hl(0, "SidekickDiffDelete", { 
-            fg = "#505050", 
+            fg = "#565f89", 
             bg = "NONE",
             strikethrough = true 
         })
 
-       
+        -- Subtle ghost text for AI suggestions
         vim.api.nvim_set_hl(0, "SidekickSuggestion", { 
-            fg = "#6272a4", 
+            fg = "#565f89", 
             italic = true 
         })
     end,

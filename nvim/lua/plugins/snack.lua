@@ -19,6 +19,7 @@ return {
         else
             vim.print = dd
         end
+  
     end,
 
     opts = {
@@ -32,10 +33,10 @@ return {
         gh = { enabled = true },
         git = { enabled = true },
         gitbrowse = { enabled = true },
-        image = {
-            enabled = true,
-            doc = { inline = true, float = true, max_width = 80, max_height = 40 },
-        },
+        -- image = {
+        --     enabled = true,
+        --     doc = { inline = true, float = true, max_width = 80, max_height = 40 },
+        -- },
         indent = { enabled = true },
         input = { enabled = true },
         keymap = { enabled = true },
@@ -73,6 +74,7 @@ return {
         Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
         Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uf")
         Snacks.toggle.line_number():map("<leader>ul")
+
     end,
 
     keys = {
