@@ -1,3 +1,6 @@
+local active_count = 0
+local clear_timer = nil
+
 return {
     "neovim/nvim-lspconfig",
     cmd = { "Mason", "Neoconf" },
@@ -6,19 +9,26 @@ return {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig",
         "folke/neoconf.nvim",
-        "folke/lazydev.nvim", -- Replaced deprecated neodev.nvim
-
+        "folke/lazydev.nvim",
         "nvimdev/lspsaga.nvim",
     },
     config = function()
-        -- Use lazydev for Lua development (replaces neodev)
         require("lazydev").setup()
 
         vim.diagnostic.config({
-            underline = false
+            underline = false,
+            undercurl = false,
+            virtual_text = false,
+            signs = false
         })
 
         pcall(vim.keymap.del, "n", "K")
+
+        local function clear_progress()
+            if clear_timer then clear_timer:stop(); clear_timer = nil end
+            -- 這裡發送終端控制序列
+            vim.api.nvim_ui_send("\027]9;4;0\027\\")
+        end
 
         local servers = {
             lua_ls = {
@@ -46,40 +56,18 @@ return {
             texlab = {},
         }
 
-        local handlers = {
-            ["textDocument/publishDiagnostics"] = vim.lsp.with(
-                vim.lsp.diagnostic.on_publish_diagnostics,
-                {
-                    underline = false,
-                    undercurl = false,
-                    virtual_text = false,
-                    signs = false
-                }
-            ),
-            ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-                border = "rounded",
-            })
-        }
-
         local on_attach = function(_, bufnr)
             local nmap = function(keys, func, desc)
-                if desc then
-                    desc = 'LSP: ' .. desc
-                end
+                if desc then desc = 'LSP: ' .. desc end
                 vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
             end
-
-            -- nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-            -- nmap('gd', require "telescope.builtin".lsp_definitions, '[G]oto [D]efinition')
-            -- nmap('gi', require "telescope.builtin".lsp_implementations, '[G]oto [I]mplementation')
-            -- nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
             nmap('K', "<cmd>Lspsaga hover_doc<CR>", 'Hover Documentation')
             nmap('<leader>rn', "<cmd>Lspsaga rename ++project<cr>", '[R]e[n]ame')
             nmap('<leader>ca', "<cmd>Lspsaga code_action<CR>", '[C]ode [A]ction')
-
-            nmap('<leader>k', vim.lsp.buf.signature_help, 'Signature Documentation')
-            nmap('<leader>da', require "telescope.builtin".diagnostics, '[D]i[A]gnostics')
+            nmap('<leader>k', function()
+                vim.lsp.buf.signature_help({ border = "rounded" })
+            end, 'Signature Documentation')
             nmap("<space>f", function()
                 vim.lsp.buf.format { async = true }
             end, "[F]ormat code")
@@ -95,28 +83,45 @@ return {
             ensure_installed = vim.tbl_keys(servers),
         })
 
-        -- --- THE FIX IS HERE ---
         for server, config in pairs(servers) do
-            -- 1. Merge the server-specific config with your defaults
             local final_opts = vim.tbl_deep_extend("keep",
                 {
-                    handlers = handlers,
                     on_attach = on_attach,
                     capabilities = capabilities
                 },
                 config
             )
-
-            -- 2. Use the new native Neovim API to register and enable the server
-            -- This replaces require("lspconfig")[server].setup(final_opts)
             vim.lsp.config(server, final_opts)
             vim.lsp.enable(server)
         end
 
-        -- Formatting UI tweaks
+        -- 將 Autocmd 放在 config 函數內部，確保變數可存取
+        vim.api.nvim_create_autocmd("LspProgress", {
+            callback = function(ev)
+                local value = ev.data.params.value
+                if clear_timer then clear_timer:stop(); clear_timer = nil end
+
+                if value.kind == "begin" then
+                    active_count = active_count + 1
+                    local pct = value.percentage or 3
+                    vim.api.nvim_ui_send(string.format("\027]9;4;1;%d\027\\", pct))
+                elseif value.kind == "report" then
+                    if value.percentage then
+                        vim.api.nvim_ui_send(string.format("\027]9;4;1;%d\027\\", value.percentage))
+                    end
+                elseif value.kind == "end" then
+                    active_count = math.max(0, active_count - 1)
+                    if active_count == 0 then
+                        vim.api.nvim_ui_send("\027]9;4;1;100\027\\")
+                        clear_timer = vim.uv.new_timer()
+                        clear_timer:start(1500, 0, vim.schedule_wrap(clear_progress))
+                    end
+                end
+            end,
+        })
+
+        -- UI Colors
         vim.api.nvim_set_hl(0, "SagaBorder", { fg = "#7aa2f7", bg = "NONE" })
         vim.api.nvim_set_hl(0, "SagaNormal", { bg = "NONE" })
-        vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#7aa2f7", bg = "NONE" })
-        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
     end
 }

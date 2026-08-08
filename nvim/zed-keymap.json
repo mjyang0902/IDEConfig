@@ -1,0 +1,177 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane",
+      "ctrl-/": "terminal_panel::ToggleFocus",
+      "ctrl-.": "agent::FocusAgent",
+      "space space": "file_finder::Toggle",
+      "space ?": "projects::OpenRecent",
+      "space e": "project_panel::Toggle",
+      "space f f": "file_finder::Toggle",
+      "space f g": ["pane::DeploySearch", { "replace_enabled": false }],
+      "space f b": "tab_switcher::Toggle",
+      "space f p": "command_palette::Toggle",
+      "space k m": "zed::OpenKeymap",
+      "space t d": "terminal_panel::ToggleFocus",
+      "space l g": "git_panel::ToggleFocus",
+      "space g l": "git::BranchDiff",
+      "space g f": "git::FileHistory",
+      "space g b": "editor::OpenPermalinkToLine",
+      "space s s": "outline_panel::Toggle",
+      "space n d": "workspace::ClearAllNotifications",
+      "space u d": "editor::ToggleInlineDiagnostics",
+      "space u D": "editor::ToggleDiagnostics",
+      "space u g": "editor::ToggleIndentGuides",
+      "space u l": "editor::ToggleLineNumbers",
+      "space u f": "editor::ToggleSoftWrap",
+      "space u z": "workspace::ToggleCenteredLayout",
+      "space a a": "agent::FocusAgent",
+      "space a c": "agent::NewThread",
+      "space a v": "agent::AddSelectionToThread",
+      "space a t": "agent::AddSelectionToThread",
+      "space a p": "assistant::InlineAssist",
+      "space c h": "zed::OpenKeymap",
+      "space m u": "command_palette::Toggle",
+      "f5": "debugger::Start",
+      "f10": "debugger::StepOver",
+      "f11": "debugger::StepInto",
+      "f12": "debugger::StepOut",
+      "space b": "editor::ToggleBreakpoint",
+      "space B": "editor::EditLogBreakpoint",
+      "space d r": "debugger::Rerun",
+      "space d l": "dev::OpenDebugAdapterLogs",
+      "space d f": "debugger::FocusFrames",
+      "space d s": "debugger::FocusVariables",
+      "space d h": "debugger::EvaluateSelectedText",
+      "space d p": "debug_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Editor && mode == full",
+    "bindings": {
+      "left": null,
+      "right": null,
+      "up": null,
+      "down": null
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && !menu",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "enter": ["workspace::SendKeystrokes", "a enter escape up $"],
+      "shift-l": "pane::ActivateNextItem",
+      "shift-h": "pane::ActivatePreviousItem",
+      "space b c": "pane::CloseActiveItem",
+      "space b d": "pane::CloseActiveItem",
+      "space w": "workspace::Save",
+      "space w !": "workspace::Save",
+      "space q": "pane::CloseActiveItem",
+      "space q !": "pane::CloseActiveItem",
+      "space w q": [
+        "action::Sequence",
+        [
+          "workspace::Save",
+          "pane::CloseActiveItem"
+        ]
+      ],
+      "space w q !": [
+        "action::Sequence",
+        [
+          "workspace::Save",
+          "pane::CloseActiveItem"
+        ]
+      ],
+      "space y": "vim::Yank",
+      "K": "editor::Hover",
+      "space r n": "editor::Rename",
+      "space c a": "editor::ToggleCodeActions",
+      "space k": "editor::ShowSignatureHelp",
+      "space f": "editor::Format",
+      "g d": "editor::GoToDefinition",
+      "g r": "editor::FindAllReferences",
+      "g i": "editor::GoToImplementation",
+      "g y": "editor::GoToTypeDefinition",
+      "space /": "buffer_search::Deploy",
+      "ctrl-p": "command_palette::Toggle"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert && !menu",
+    "bindings": {
+      "j k": "vim::NormalBefore",
+      "ctrl-h": "editor::MoveLeft",
+      "ctrl-l": "editor::MoveRight",
+      "ctrl-j": "editor::MoveDown",
+      "ctrl-k": "editor::MoveUp",
+      "f1": "editor::AcceptEditPrediction",
+      "f2": "copilot::NextSuggestion",
+      "f3": "copilot::PreviousSuggestion"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == visual && !menu",
+    "bindings": {
+      "left": null,
+      "right": null,
+      "up": null,
+      "down": null,
+      "J": "editor::MoveLineDown",
+      "K": "editor::MoveLineUp",
+      "tab": "editor::Indent",
+      "shift-tab": "editor::Outdent",
+      "space y": "vim::VisualYank",
+      "space c a": "editor::ToggleCodeActions",
+      "space f": "editor::Format",
+      "space a v": "agent::AddSelectionToThread",
+      "space d h": "debugger::EvaluateSelectedText"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "escape": "terminal::ToggleViMode",
+      "j k": "terminal::ToggleViMode",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-w": "workspace::FocusCenterPane",
+      "ctrl-/": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Dock || Agent || AgentPanel || AssistantPanel",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight"
+    }
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "o": "project_panel::Open",
+      "enter": "project_panel::Open",
+      "a": "project_panel::NewFile",
+      "A": "project_panel::NewDirectory",
+      "r": "project_panel::Rename",
+      "d": "project_panel::Trash",
+      "h": "project_panel::CollapseSelectedEntry",
+      "l": "project_panel::ExpandSelectedEntry",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight"
+    }
+  }
+]

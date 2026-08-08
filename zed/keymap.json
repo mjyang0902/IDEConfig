@@ -1,0 +1,742 @@
+// Zed keymap for a Neovim-style workflow
+//
+// Path:
+//   ~/.config/zed/keymap.json
+//
+// Final interaction model:
+//   1. Panel selectors:
+//        Space-e   -> Project Panel
+//        Space-o   -> Outline Panel
+//        Space-g-g -> Git Panel
+//        Space-t-d -> Terminal Panel
+//        Space-a-a -> Agent Panel
+//
+//   2. Dock visibility only:
+//        Space-h -> Left Dock
+//        Space-j -> Bottom Dock
+//        Space-l -> Right Dock
+//
+//   3. Focus movement only:
+//        Ctrl-h/j/k/l
+//
+//   4. Normal-mode escape:
+//        Any VimControl Editor: jk -> real Vim Normal mode
+//        Outline/Project/Threads panel inputs without VimControl:
+//        jk -> leave the input and return to the list/tree
+//
+//   5. Terminal:
+//        jk enters Terminal Vi Mode; i returns to shell input.
+//
+// Panel selectors still use Zed's native panel actions, so when the selected
+// panel itself owns focus, pressing its selector again may close it. Use
+// Space-h/j/l whenever you specifically want deterministic Dock visibility.
+
+
+[
+  // ─────────────────────────────────────────────────────────────
+  // Shared Panel selectors and Dock visibility for non-text UI
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "!Editor && !Terminal",
+    "bindings": {
+      // Select a specific Panel
+      "space e": "project_panel::Toggle",
+      "space o": "outline_panel::Toggle",
+      "space g g": "git_panel::Toggle",
+      "space t d": "terminal_panel::Toggle",
+      "space a a": "agent::Toggle",
+
+      // Toggle Dock visibility without selecting a Panel
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Main code editor — Normal / Visual shared leader mappings
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "Editor && mode == full && !AgentPanel && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu",
+    "bindings": {
+      // Find / Search
+      "space space": "file_finder::Toggle",
+      "space f f": "file_finder::Toggle",
+      "space f g": [
+        "pane::DeploySearch",
+        {
+          "replace_enabled": false
+        }
+      ],
+      "space f b": "tab_switcher::Toggle",
+      "space f p": "command_palette::Toggle",
+      "space f o": "outline::Toggle",
+      "space /": "buffer_search::Deploy",
+      "space s s": "project_symbols::Toggle",
+
+      // Panels
+      "space e": "project_panel::Toggle",
+      "space o": "outline_panel::Toggle",
+      "space g g": "git_panel::Toggle",
+      "space t d": "terminal_panel::Toggle",
+      "ctrl-/": "terminal_panel::Toggle",
+
+      // Dock visibility
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock",
+
+      // Agent / AI
+      "space a a": "agent::Toggle",
+      "space a t": "multi_workspace::ToggleWorkspaceSidebar",
+      "space a n": "agent::NewThread",
+      "space a i": "assistant::InlineAssist",
+      "space a d": "agent::OpenAgentDiff",
+
+      // Save / Close
+      "space w": "workspace::Save",
+      "space shift-w": "workspace::SaveAll",
+      "space q": "pane::CloseActiveItem",
+
+      // Buffer / Tab management
+      "space b d": "pane::CloseActiveItem",
+      "space b c": "pane::CloseActiveItem",
+      "space b o": "pane::CloseOtherItems",
+      "space b r": "pane::ReopenClosedItem",
+      "space b a": "workspace::CloseAllItemsAndPanes",
+
+      // Split / Pane management
+      "space s v": "pane::SplitRight",
+      "space s h": "pane::SplitDown",
+      "space s c": "pane::JoinIntoNext",
+      "space s o": "pane::JoinAll",
+      "space s z": "workspace::ToggleZoom",
+      "space s =": "workspace::ResetPaneSizes",
+
+      // Layout
+      "space c l": "workspace::ToggleCenteredLayout",
+
+      // Code / LSP
+      "space r n": "editor::Rename",
+      "space c a": "editor::ToggleCodeActions",
+      "space c f": "editor::Format",
+      "space c o": "editor::OrganizeImports",
+      "space d a": "diagnostics::Deploy",
+      "space d f": "diagnostics::DeployCurrentFile",
+      "space k": "editor::ShowSignatureHelp",
+
+      // Git
+      "space g d": "git::Diff",
+      "space g b": "git::BranchDiff",
+      "space g f": "git::FileHistory",
+      "space g o": "git::OpenModifiedFiles",
+
+      // New untitled file
+      "space .": "workspace::NewFile",
+
+      // Open keymap
+      "space c h": "zed::OpenKeymap"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Main code editor — Normal mode only
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "Editor && mode == full && !AgentPanel && vim_mode == normal && !VimWaiting && !menu",
+    "bindings": {
+      // Command Palette
+      "ctrl-p": "command_palette::Toggle",
+
+      // Pane navigation
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane",
+
+      // Resize panes
+      "alt-h": "vim::ResizePaneLeft",
+      "alt-j": "vim::ResizePaneDown",
+      "alt-k": "vim::ResizePaneUp",
+      "alt-l": "vim::ResizePaneRight",
+
+      // Previous / next buffer
+      "shift-h": "pane::ActivatePreviousItem",
+      "shift-l": "pane::ActivateNextItem",
+
+      // LSP navigation
+      "g d": "editor::GoToDefinition",
+      "g shift-d": "editor::GoToDeclaration",
+      "g r": "editor::FindAllReferences",
+      "g i": "editor::GoToImplementation",
+      "g y": "editor::GoToTypeDefinition",
+      "shift-k": "editor::Hover",
+
+      // Diagnostics
+      "] d": "editor::GoToDiagnostic",
+      "[ d": "editor::GoToPreviousDiagnostic",
+
+      // Preserve the user's custom Neovim mapping
+      "'": "vim::RepeatFind"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Main code editor — Visual mode only
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "Editor && mode == full && !AgentPanel && vim_mode == visual && !VimWaiting && !menu",
+    "bindings": {
+      "space a s": "agent::AddSelectionToThread",
+      "space a i": "assistant::InlineAssist",
+      "space c f": "editor::FormatSelections"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Main code editor — Insert mode cursor movement
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "Editor && mode == full && !AgentPanel && vim_mode == insert && !menu",
+    "bindings": {
+      "ctrl-h": "editor::MoveLeft",
+      "ctrl-j": "editor::MoveDown",
+      "ctrl-k": "editor::MoveUp",
+      "ctrl-l": "editor::MoveRight"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Agent prompt — Normal mode
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "AcpThread > Editor && vim_mode == normal && !VimWaiting && !menu",
+    "bindings": {
+      "space a a": "agent::Toggle",
+      "space a t": "multi_workspace::ToggleWorkspaceSidebar",
+      "space a n": "agent::NewThread",
+      "space a d": "agent::OpenAgentDiff",
+
+      "space e": "project_panel::Toggle",
+      "space o": "outline_panel::Toggle",
+      "space g g": "git_panel::Toggle",
+      "space t d": "terminal_panel::Toggle",
+
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock",
+
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Empty workspace
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      "space space": "file_finder::Toggle",
+      "space f f": "file_finder::Toggle",
+      "space f g": [
+        "pane::DeploySearch",
+        {
+          "replace_enabled": false
+        }
+      ],
+
+      "space e": "project_panel::Toggle",
+      "space o": "outline_panel::Toggle",
+      "space g g": "git_panel::Toggle",
+      "space t d": "terminal_panel::Toggle",
+      "ctrl-/": "terminal_panel::Toggle",
+
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock",
+
+      "space a a": "agent::Toggle",
+      "space a t": "multi_workspace::ToggleWorkspaceSidebar",
+      "space a n": "agent::NewThread",
+
+      "space .": "workspace::NewFile",
+      "ctrl-p": "command_palette::Toggle"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Terminal — shared navigation
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane",
+
+      // Quick Terminal Panel selector.
+      "ctrl-/": "terminal_panel::Toggle"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Terminal shell/input mode
+  //
+  // Restrict jk to the normal terminal screen so it does not steal jk
+  // from full-screen TUIs such as Neovim, less, or many tmux programs.
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "Terminal && !vi_mode && screen == normal",
+    "bindings": {
+      "j k": "terminal::ToggleViMode"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Terminal Vi Mode — analogous to Terminal-Normal mode
+  //
+  // Zed exposes a dedicated `vi_mode` context while this mode is active.
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "Terminal && vi_mode",
+    "bindings": {
+      // Return to shell input mode.
+      "i": "terminal::ToggleViMode",
+
+      // Select a specific Panel.
+      "space e": "project_panel::Toggle",
+      "space o": "outline_panel::Toggle",
+      "space g g": "git_panel::Toggle",
+      "space t d": "terminal_panel::Toggle",
+      "space a a": "agent::Toggle",
+
+      // Deterministic Dock visibility.
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock",
+
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Project Panel — filename editor / rename input
+  //
+  // Some Project Panel inputs are panel editing states rather than
+  // full VimControl editors. jk/Escape returns to the project tree.
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "ProjectPanel && editing",
+    "bindings": {
+      "j k": "menu::Cancel",
+      "escape": "menu::Cancel"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Project Panel — NvimTree / Snacks Explorer style
+  //
+  // Do not set bare "space" to null here. Zed can distinguish the
+  // longer "space e" sequence from its built-in bare-Space action.
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "space e": "project_panel::Toggle",
+      "space o": "outline_panel::Toggle",
+      "space g g": "git_panel::Toggle",
+      "space t d": "terminal_panel::Toggle",
+      "space a a": "agent::Toggle",
+
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock",
+
+      "q": "project_panel::Toggle",
+
+      "enter": "project_panel::OpenPermanent",
+      "o": "project_panel::OpenPermanent",
+
+      "v": "project_panel::OpenSplitVertical",
+      "s": "project_panel::OpenSplitHorizontal",
+
+      "a": "project_panel::NewFile",
+      "shift-a": "project_panel::NewDirectory",
+      "r": "project_panel::Rename",
+      "d": "project_panel::Trash",
+      "/": "project_panel::NewSearchInDirectory",
+
+      "h": "project_panel::CollapseSelectedEntry",
+      "l": "project_panel::ExpandSelectedEntry",
+      "space \\": "project_panel::CollapseAllEntries",
+
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Outline Panel — search field focused ("Insert" state)
+  //
+  // Outline's search box is controlled by the panel's `editing`
+  // context rather than by an ordinary Vim mode transition.
+  //
+  // - jk / Escape: leave search and return to the tree
+  // - Dock visibility is controlled with Space-h/j/l
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "OutlinePanel && editing",
+    "bindings": {
+      "j k": "menu::Cancel",
+      "escape": "menu::Cancel",
+
+      // Leave search first with jk/Escape. Dock visibility remains available.
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Outline Panel — tree focused ("Normal" state)
+  //
+  // - i or /: enter the Outline search field
+  // - i or / enters search; Space-l closes the right Dock
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "OutlinePanel && not_editing",
+    "bindings": {
+      // Enter the search field, analogous to Insert mode.
+      "i": "menu::Cancel",
+      "/": "menu::Cancel",
+
+      // Select a specific Panel.
+      "space e": "project_panel::Toggle",
+      "space o": "outline_panel::Toggle",
+      "space g g": "git_panel::Toggle",
+      "space t d": "terminal_panel::Toggle",
+      "space a a": "agent::Toggle",
+
+      // Deterministic Dock visibility.
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock",
+
+      "q": "workspace::CloseActiveDock",
+
+      "enter": "outline_panel::OpenSelectedEntry",
+
+      "h": "outline_panel::CollapseSelectedEntry",
+      "l": "outline_panel::ExpandSelectedEntry",
+
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Git Panel — changes/history list focused
+  //
+  // Panel selectors choose content; Space-l controls right-Dock visibility.
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "GitPanel && !Editor",
+    "bindings": {
+      "space e": "project_panel::Toggle",
+      "space o": "outline_panel::Toggle",
+      "space g g": "git_panel::Toggle",
+      "space t d": "terminal_panel::Toggle",
+      "space a a": "agent::Toggle",
+
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock",
+
+      "q": "git_panel::Close",
+
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Git Panel — embedded commit Editor in Vim Normal mode
+  //
+  // An empty Git panel can focus its internal commit Editor. The
+  // previous GitPanel && !Editor block therefore did not match.
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "GitPanel > Editor && vim_mode == normal && !VimWaiting",
+    "bindings": {
+      "space e": "project_panel::Toggle",
+      "space o": "outline_panel::Toggle",
+      "space g g": "git_panel::Toggle",
+      "space t d": "terminal_panel::Toggle",
+      "space a a": "agent::Toggle",
+
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock",
+
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Agent Panel when its prompt Editor is not focused
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "AgentPanel && !Editor",
+    "bindings": {
+      "space a a": "agent::Toggle",
+      "space a t": "multi_workspace::ToggleWorkspaceSidebar",
+      "space a n": "agent::NewThread",
+      "space a d": "agent::OpenAgentDiff",
+
+      "space e": "project_panel::Toggle",
+      "space o": "outline_panel::Toggle",
+      "space g g": "git_panel::Toggle",
+      "space t d": "terminal_panel::Toggle",
+
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock",
+
+      "q": "agent::Toggle",
+
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Threads Sidebar search / rename Editor — real Vim escape
+  //
+  // This exact context is intentionally more specific than the generic
+  // Editor rule below. It fixes the thread-list search field explicitly.
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "ThreadsSidebar > Editor && VimControl && (vim_mode == insert || vim_mode == replace)",
+    "bindings": {
+      "j k": "vim::NormalBefore"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Threads Sidebar search Editor — Vim Normal mode
+  //
+  // j/k leaves the filter and moves through the thread list.
+  // i or / returns to Insert mode in the search field.
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "ThreadsSidebar > Editor && VimControl && vim_mode == normal && !VimWaiting",
+    "bindings": {
+      "j": "editor::MoveDown",
+      "k": "editor::MoveUp",
+      "i": "vim::SwitchToInsertMode",
+      "/": "vim::SwitchToInsertMode",
+      "escape": "menu::Cancel",
+
+      // Panel selectors
+      "space a t": "multi_workspace::ToggleWorkspaceSidebar",
+      "space e": "project_panel::Toggle",
+      "space o": "outline_panel::Toggle",
+      "space g g": "git_panel::Toggle",
+      "space t d": "terminal_panel::Toggle",
+      "space a a": "agent::Toggle",
+
+      // Dock visibility
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock",
+
+      // Focus navigation
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Threads Sidebar non-Vim fallbacks
+  //
+  // Current Zed uses `searching`, `editing`, and `not_searching`
+  // panel states. These rules cover a filter/rename input that does
+  // not expose VimControl in a particular Zed build.
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "ThreadsSidebar && searching",
+    "bindings": {
+      "j k": "menu::Cancel",
+      "escape": "menu::Cancel"
+    }
+  },
+  {
+    "context": "ThreadsSidebar && editing",
+    "bindings": {
+      "j k": "menu::Cancel",
+      "escape": "menu::Cancel"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Threads Sidebar list — Normal state
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "ThreadsSidebar && !Editor",
+    "bindings": {
+      "space a t": "multi_workspace::ToggleWorkspaceSidebar",
+
+      "space e": "project_panel::Toggle",
+      "space o": "outline_panel::Toggle",
+      "space g g": "git_panel::Toggle",
+      "space t d": "terminal_panel::Toggle",
+      "space a a": "agent::Toggle",
+
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock",
+
+      "q": "multi_workspace::ToggleWorkspaceSidebar",
+
+      "n": "agents_sidebar::NewThreadInGroup",
+      "o": "agents_sidebar::NewThreadInGroup",
+      "/": "agents_sidebar::FocusSidebarFilter",
+      "g h": "agents_sidebar::ToggleThreadHistory",
+
+      "d a": "agent::ArchiveSelectedThread",
+      "d d": "agent::RemoveSelectedThread",
+
+      "enter": "menu::Confirm",
+
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Existing macOS fold shortcuts
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "Editor && mode == full",
+    "bindings": {
+      "cmd-[": "editor::Fold",
+      "cmd-]": "editor::UnfoldLines",
+      "cmd-alt-[": "editor::FoldAll",
+      "cmd-alt-]": "editor::UnfoldAll"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Remove Zed's default Cmd-J bottom-dock shortcut
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-j": null
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Universal real Vim escape — keep this block LAST
+  //
+  // Every Editor that exposes VimControl gets a real Normal mode.
+  // This includes code editors, Agent prompts, picker/search inputs,
+  // Git commit editors, and other embedded Zed Editors.
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "Editor && VimControl && (vim_mode == insert || vim_mode == replace)",
+    "bindings": {
+      "j k": "vim::NormalBefore"
+    }
+  },
+
+  // Explicit picker override for reliability in File Finder,
+  // Command Palette, symbol pickers, branch pickers, etc.
+  {
+    "context": "Picker > Editor && VimControl && (vim_mode == insert || vim_mode == replace)",
+    "bindings": {
+      "j k": "vim::NormalBefore"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Search All Files — query/replace/filter inputs
+  //
+  // The search field is an auto-height Editor inside ProjectSearchBar.
+  // Escape and jk enter real Vim Normal mode. In Normal mode, q or
+  // Space-q closes the entire Search All Files tab.
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "ProjectSearchBar > Editor && VimControl && (vim_mode == insert || vim_mode == replace)",
+    "bindings": {
+      "j k": "vim::NormalBefore",
+      "escape": "vim::NormalBefore"
+    }
+  },
+  {
+    "context": "ProjectSearchBar > Editor && VimControl && vim_mode == normal && !VimWaiting",
+    "bindings": {
+      "q": "pane::CloseActiveItem",
+      "space q": "pane::CloseActiveItem",
+
+      // Short Dock visibility shortcuts are also available here.
+      "space h": "workspace::ToggleLeftDock",
+      "space j": "workspace::ToggleBottomDock",
+      "space l": "workspace::ToggleRightDock",
+
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-\\": "workspace::ActivateLastPane"
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // Final universal jk escape — keep this block LAST
+  //
+  // Do not require Editor or VimControl here. Any Zed component that
+  // exposes insert/replace vim_mode gets the same jk -> Normal behavior.
+  // Terminal is unaffected because it uses terminal vi_mode instead.
+  // ─────────────────────────────────────────────────────────────
+  {
+    "context": "vim_mode == insert || vim_mode == replace",
+    "bindings": {
+      "j k": "vim::NormalBefore"
+    }
+  }
+
+]

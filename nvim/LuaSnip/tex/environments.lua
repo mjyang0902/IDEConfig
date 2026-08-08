@@ -210,61 +210,80 @@ return {
     s({trig="template_beamer", dscr="A template of latex beamer"},
         fmta( -- The snippet code actually looks like the equation environment it produces.
             [[
-                \documentclass[x11names, noamsthm]{beamer}
-                \usetheme{Madrid}
-                \usecolortheme{default}
+               \documentclass[aspectratio=169, 11pt, noamsthm]{beamer}
 
-                \makeatletter
-                \setbeamertemplate{footline}
-                {
-                    \leavevmode%
-                    \hbox{%
-                    \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
-                    \usebeamerfont{author in head/foot}<>
-                    \end{beamercolorbox}%
-                    \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
-                    \usebeamerfont{title in head/foot}<>
-                    \end{beamercolorbox}%
-                    \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
-                    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
-                    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
-
-
-                    \end{beamercolorbox}}%
-                    \vskip0pt%
-                }
-                \makeatother
-                \usepackage[ruled,vlined, algo2e]{algorithm2e}
-                \usefonttheme[onlymath]{serif}
-                \usepackage{mathtools}
-                \usepackage{amsthm}
-                \usepackage{latexsym, amsfonts, amsmath}
+                \usepackage[utf8]{inputenc}
+                \usepackage{amsmath, amsfonts, amssymb, amsthm, mathtools}
+                \usepackage{booktabs}
+                \usepackage{tcolorbox}
+                \usepackage[ruled,vlined,algo2e]{algorithm2e}
                 \usepackage{bbm}
 
+                \usetheme{default}
+                \useinnertheme{rectangles}
+                \setbeamertemplate{navigation symbols}{}
+                \usefonttheme[onlymath]{serif}
+
+                \definecolor{PrimaryColor}{RGB}{44, 62, 80}
+                \definecolor{AccentColor}{RGB}{231, 76, 60}
+                \definecolor{LightGray}{RGB}{240, 243, 244}
+
+                \setbeamercolor{title}{fg=PrimaryColor}
+                \setbeamercolor{frametitle}{bg=PrimaryColor, fg=white}
+                \setbeamercolor{structure}{fg=PrimaryColor}
+                \setbeamercolor{alerted text}{fg=AccentColor}
+                \setbeamercolor{block title}{bg=PrimaryColor, fg=white}
+                \setbeamercolor{block body}{bg=LightGray, fg=black}
+
+                \setbeamertemplate{title page}{
+                    \vspace{2cm}
+                    \begin{center}
+                        {\Large\bfseries\textcolor{PrimaryColor}{\inserttitle}}\\[0.5cm]
+                        {\large\textcolor{AccentColor}{\insertsubtitle}}\\[1cm]
+                        {\small \insertauthor}\\[0.3cm]
+                        {\footnotesize \insertinstitute}\\[0.3cm]
+                        {\footnotesize \insertdate}
+                    \end{center}
+                }
+
+                \setbeamertemplate{frametitle}{
+                    \nointerlineskip
+                    \begin{beamercolorbox}[wd=\paperwidth,ht=3.5ex,dp=1.2ex,leftskip=0.5cm,rightskip=0.5cm]{frametitle}
+                        \large\bfseries\insertframetitle
+                        \hfill
+                        {\small\insertframenumber/\inserttotalframenumber}
+                    \end{beamercolorbox}
+                }
+
                 \title{<>}
+                \subtitle{<>}
                 \author{<>}
                 \institute{
                     <>
                 }
                 \date{\today}
+
                 \begin{document}
-                \frame{\titlepage}
+                \begin{frame}[plain]
+                    \titlepage
+                \end{frame}
+
                 <>
+
                 \begin{frame}[allowframebreaks]
                     \frametitle{Bibliography}
                     \tiny{\bibliographystyle{plain}}
                     \bibliography{ref}
                 \end{frame}
-                \end{document}
+                \end{document} 
             ]],
             -- The insert node is placed in the <> angle brackets
             {
-                i(1, "Meeting"),
+                i(1),
                 i(2),
                 i(3),
                 i(4),
-                i(5),
-                i(6)
+                i(5)
             },
             -- This is where I specify that angle brackets are used as node positions.
             { delimiters = "<>" }

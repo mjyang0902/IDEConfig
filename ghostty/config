@@ -1,9 +1,21 @@
-font-family = JetBrainsMono Nerd Font 
-
+font-family = JetBrainsMono Nerd Font
 font-size = 15
-# theme = catppuccin-mocha
-# theme = Github Dark
+
 theme = Dark+
 
+# Rendering workaround
+window-vsync = false
+macos-titlebar-style = native
+macos-window-shadow = false
+background-opacity = 1
+background-blur = false
+macos-non-native-fullscreen = false
+
+# Reduce font-rendering / glyph glitches
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+
 keybind = performable:ctrl+c=copy_to_clipboard
+copy-on-select = clipboard
 clipboard-write = allow
